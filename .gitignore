@@ -2,4 +2,7 @@
 .idea/
 .vscode/
 venv/
+.project
+.pydevproject
+.settings
 **.npy
