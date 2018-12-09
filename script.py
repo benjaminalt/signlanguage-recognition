@@ -95,25 +95,25 @@ def trainNet(net, batch_size, n_epochs, learning_rate):
         total_train_loss = 0
 
         for i, data in enumerate(train_loader, 0):
-             inputs, labels = data
+            inputs, labels = data
 
-             inputs, labels = Variable(inputs), Variable(labels)
+            inputs, labels = Variable(inputs), Variable(labels)
 
-             optimizer.zero_grad()
+            optimizer.zero_grad()
 
-             outputs = net(inputs)
-             loss_size = loss(outputs, labels)
-             loss_size.backward()
-             optimizer.step()
+            outputs = net(inputs)
+            loss_size = loss(outputs, labels)
+            loss_size.backward()
+            optimizer.step()
 
-             running_loss += loss_size.data[0]
-             total_train_loss += loss_size.data[0]
+            running_loss += loss_size.data[0]
+            total_train_loss += loss_size.data[0]
 
-             if (i + 1) % (print_every + 1) == 0:
-                 print("Epoch {}, {:d}% \t train_loss: {:.2f} took: {:.2f}s".format(
-                     epoch + 1, int(100 * (i + 1) / n_batches), running_loss / print_every, time.time() - start_time))
-                 running_loss = 0.0
-                 start_time = time.time()
+            if (i + 1) % (print_every + 1) == 0:
+                print("Epoch {}, {:d}% \t train_loss: {:.2f} took: {:.2f}s".format(
+                    epoch + 1, int(100 * (i + 1) / n_batches), running_loss / print_every, time.time() - start_time))
+                running_loss = 0.0
+                start_time = time.time()
 
             total_val_loss = 0
             for inputs, labels in val_loader:
