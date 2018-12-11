@@ -1,8 +1,9 @@
-# Created by .ignore support plugin (hsz.mobi)
-.idea/
-.vscode/
 venv/
-.project
-.pydevproject
-.settings
-**.npy
+__pycache__/
+
+*.idea/
+*.vscode/
+*.project
+*.pydevproject
+*.settings
+*.npy
