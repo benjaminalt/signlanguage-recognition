@@ -3,6 +3,7 @@ import os
 import train
 from datasets import SignMNISTDataset
 from nets import SimpleCNN
+from visualizer import Visualizer
 
 
 def main():
@@ -13,7 +14,9 @@ def main():
     test_set  = SignMNISTDataset.SignMNISTDataset(test_path)
 
     model = SimpleCNN.SimpleCNN()
-    train.trainModel(model, test_set, train_set, batch_size=32, n_epochs=5, learning_rate=0.001)
+
+    vis = Visualizer.Visualizer()
+    vis.show(lambda : train.trainModel(model, train_set, test_set, batch_size=32, n_epochs=10, learning_rate=0.001))
 
 
 if __name__ == "__main__":
