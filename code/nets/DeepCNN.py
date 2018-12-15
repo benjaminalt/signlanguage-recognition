@@ -2,7 +2,7 @@ import torch
 
 class DeepCNN(torch.nn.Module):
 
-    def __init__(self, dropout_probability=0.3):
+    def __init__(self, options):
         super(DeepCNN, self).__init__()
 
         self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=18, kernel_size=3, stride=1,
@@ -17,10 +17,12 @@ class DeepCNN(torch.nn.Module):
         
         self.net = torch.nn.Sequential(self.conv1, self.relu1, self.pool1, self.conv2, self.relu2, self.pool2)
 
-        self.dropout1 = torch.nn.Dropout(dropout_probability)
+        self.dropout1 = torch.nn.Dropout(options.dropout_probability_1)
         self.fc1 = torch.nn.Linear(in_features=18 * 7 * 7, out_features=64)  # out: [64 x 1]
+
         self.relu3 = torch.nn.ReLU()
-        self.dropout2 = torch.nn.Dropout(dropout_probability)
+
+        self.dropout2 = torch.nn.Dropout(options.dropout_probability_2)
         self.fc2 = torch.nn.Linear(in_features=64, out_features=25)  # out: [25 x 1]
 
     def forward(self, input):

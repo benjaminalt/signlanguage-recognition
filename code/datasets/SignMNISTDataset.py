@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 class SignMNISTDataset(Dataset):
     """Sign language MNIST dataset."""
 
-    def __init__(self, input_path, transform=None):
+    def __init__(self, input_path, options,transform=None):
         """
         Args:
             input_path (string): Path to the csv file.

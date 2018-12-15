@@ -3,13 +3,14 @@ import matplotlib.animation as animation
 import queue
 from threading import Thread
 import os
-
+import time
 
 class Visualizer:
 
     def __init__(self):
         # used by main and calculation thread
         self.data_queue = queue.Queue()
+        self.finished = False
 
         # only used by main thread (all list of train/test have to have the same length)
         self.train_loss     = []
@@ -70,16 +71,36 @@ class Visualizer:
         self.axLoss.set_ylim(0, self.lossLim)
         self.axAcc.set_xlim(0, self.progressLim)
 
+        if self.finished:
+            # plt.savefig(os.path.join('..', 'results', self.options.toFileName())) # did not work for some reason, couldnt open file. file name with 116 characters too long?
+            plt.savefig(os.path.join('..', 'results', time.strftime("%Y%m%d-%H%M%S") + ".png"))
+            self.finished = False
+
         return self.axLoss, self.axAcc,
 
-    def show(self, resultGenerator):
+    def show(self, resultGenerator, options):
+        self.finished = False
+        self.options  = options
 
-        def main():
+        if options.interativeGUI:
+            def main():
+                for isTest, loss, accuracy, progress in resultGenerator():
+                    self.data_queue.put((isTest, loss, accuracy, progress))
+
+                self.finished = True
+
+            calc_thread = Thread(target=main, args=())
+            calc_thread.start()
+
+            ani = animation.FuncAnimation(self.fig, func=self._updateAnimation, frames=None, init_func=None, blit=False, interval=10, repeat=False)
+            plt.show()
+
+        else:
             for isTest, loss, accuracy, progress in resultGenerator():
                 self.data_queue.put((isTest, loss, accuracy, progress))
 
-        calc_thread = Thread(target=main, args=())
-        calc_thread.start()
+            self.finished = True
 
-        ani = animation.FuncAnimation(self.fig, func=self._updateAnimation, frames=None, init_func=None, blit=False, interval=10, repeat=False)
-        plt.show()
+            self._updateAnimation(0)
+
+            plt.show()
