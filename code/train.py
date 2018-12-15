@@ -4,7 +4,6 @@ import torch
 from torch.utils.data import DataLoader
 from torch.optim import Adam
 
-
 def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0.001, weight_decay=0.0001):
     print("===== HYPERPARAMETERS =====")
     print("batch_size=", batch_size)
@@ -33,7 +32,12 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
         for i, data in enumerate(test_loader, 0):
             labels = data['label']
             inputs = data['image']
-            inputs = inputs.type(torch.FloatTensor)
+            if torch.cuda.is_available():
+                inputs = inputs.type(torch.cuda.FloatTensor)
+                labels = labels.type(torch.cuda.LongTensor)
+            else:
+                inputs = inputs.type(torch.FloatTensor)
+                labels = labels.type(torch.LongTensor)
 
             outputs = model(inputs)
             loss = loss_fn(outputs, labels)
@@ -47,7 +51,7 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
 
         yield True, test_loss, test_accuracy, epoch
 
-        print("[Test] Test finished, took {:.2f}s".format(time.time() - test_starting_time))
+        print("[Test] Test finished, loss: {}, acc: {}, time: {:.2f}s".format(test_loss, test_accuracy, time.time() - test_starting_time))
 
         running_loss = 0.0
         print_every = n_batches // 10
@@ -57,8 +61,12 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
         for i, data in enumerate(train_loader, 0):
             labels = data['label']
             inputs = data['image']
-            inputs = inputs.type(torch.FloatTensor)
-
+            if torch.cuda.is_available():
+                inputs = inputs.type(torch.cuda.FloatTensor)
+                labels = labels.type(torch.cuda.LongTensor)
+            else:
+                inputs = inputs.type(torch.FloatTensor)
+                labels = labels.type(torch.LongTensor)
             optimizer.zero_grad()
 
             outputs = model(inputs)
@@ -70,11 +78,11 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
             total_train_loss += loss.item()
 
             if (i + 1) % (print_every + 1) == 0:
-                print("Epoch {}, {:d}% \t running_train_loss: {:.2f} took: {:.2f}s".format(
-                    epoch + 1, int(100 * (i + 1) / n_batches), running_loss / print_every, time.time() - start_time))
-
                 values, pred_labels = outputs.max(dim=1)
                 accuracy = labels.eq(pred_labels).float().mean()
+
+                print("Epoch {}, {:d}% \t loss: {:.2f}, acc: {:.2f}, time: {:.2f}s".format(
+                    epoch + 1, int(100 * (i + 1) / n_batches), running_loss / print_every, accuracy, time.time() - start_time))
 
                 yield False, loss.item(), accuracy.item(), epoch + (i + 1) / n_batches
                 running_loss = 0.0
