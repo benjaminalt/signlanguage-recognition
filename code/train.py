@@ -1,8 +1,8 @@
 import time
 
-import torch
 from torch.utils.data import DataLoader
 from torch.optim import Adam
+import torch
 
 def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0.001, weight_decay=0.0001):
     print("===== HYPERPARAMETERS =====")
@@ -39,6 +39,7 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
                 inputs = inputs.type(torch.FloatTensor)
                 labels = labels.type(torch.LongTensor)
 
+            model.train(False)
             outputs = model(inputs)
             loss = loss_fn(outputs, labels)
 
@@ -69,6 +70,7 @@ def trainModel(model, train_set, test_set, batch_size, n_epochs, learning_rate=0
                 labels = labels.type(torch.LongTensor)
             optimizer.zero_grad()
 
+            model.train(True)
             outputs = model(inputs)
             loss = loss_fn(outputs, labels)
             loss.backward()
