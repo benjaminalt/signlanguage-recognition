@@ -1,0 +1,2 @@
+gridSearch,interactiveGUI,batch_size,n_epochs,learning_rate,weight_decay,shuffleTestData,shuffleTrainData,dropout_probability_1,dropout_probability_2,final_test_loss,final_test_acc
+False,False,32,20,0.001,0.0001,False,True,0.5,0.5,0.2124436182114813,0.9412994980479643

@@ -11,17 +11,18 @@ class Options:
 
         # enables grid search
         self.gridSearch = False
-        self.interactiveGUI = False
+        self.interactiveGUI = True
 
         # settings for single training
         self.batch_size            = 32
-        self.n_epochs              = 1
+        self.n_epochs              = 8
         self.learning_rate         = 0.001
         self.weight_decay          = 0.0001
         self.shuffleTestData       = False
         self.shuffleTrainData      = True
-        self.dropout_probability_1 = 0.3
-        self.dropout_probability_2 = 0.3
+        self.dropout_probability_1 = 0.2
+        self.dropout_probability_2 = 0.2
+        self.dropout_probability_3 = 0.2 
 
         # changes of above setting during grid search
         self._variety = {
