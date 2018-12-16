@@ -1,12 +1,17 @@
 from itertools import product
+import os, time
+
+RESULT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, "results")
 
 
 class Options:
 
     def __init__(self):
+        self.output_dir = os.path.join(RESULT_DIR, time.strftime("%Y%m%d-%H%M%S"))
+
         # enables grid search
         self.gridSearch = False
-        self.interativeGUI = True
+        self.interactiveGUI = True
 
         # settings for single training
         self.batch_size            = 32
