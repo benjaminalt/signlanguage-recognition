@@ -5,9 +5,12 @@ from threading import Thread
 import os
 import time
 
+
 class Visualizer:
 
-    def __init__(self):
+    def __init__(self, options):
+        self.options = options
+
         # used by main and calculation thread
         self.data_queue = queue.Queue()
         self.finished = False
@@ -72,17 +75,15 @@ class Visualizer:
         self.axAcc.set_xlim(0, self.progressLim)
 
         if self.finished:
-            # plt.savefig(os.path.join('..', 'results', self.options.toFileName())) # did not work for some reason, couldnt open file. file name with 116 characters too long?
-            plt.savefig(os.path.join('..', 'results', time.strftime("%Y%m%d-%H%M%S") + ".png"))
+            self.fig.savefig(os.path.join(self.options.output_dir, time.strftime("%Y%m%d-%H%M%S") + ".png"))
             self.finished = False
 
         return self.axLoss, self.axAcc,
 
-    def show(self, resultGenerator, options):
+    def show(self, resultGenerator):
         self.finished = False
-        self.options  = options
 
-        if options.interativeGUI:
+        if self.options.interactiveGUI:
             def main():
                 for isTest, loss, accuracy, progress in resultGenerator():
                     self.data_queue.put((isTest, loss, accuracy, progress))
