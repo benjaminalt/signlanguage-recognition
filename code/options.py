@@ -7,11 +7,11 @@ RESULT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir
 class Options:
 
     def __init__(self):
-        self.output_dir = os.path.join(RESULT_DIR, time.strftime("%Y%m%d-%H%M%S"))
+        self._output_dir = os.path.join(RESULT_DIR, time.strftime("%Y%m%d-%H%M%S"))
 
         # enables grid search
         self.gridSearch = False
-        self.interactiveGUI = True
+        self.interactiveGUI = False
 
         # settings for single training
         self.batch_size            = 32
@@ -50,12 +50,15 @@ class Options:
             yield self
 
     def __str__(self):
-        var_names = [x for x in vars(self) if not x.startswith("_")]
-        return 'Options: ' + ', '.join(str(e) + "=" + str(getattr(self, e)) for e in var_names)
+        return 'Options: ' + ', '.join(str(e) + "=" + str(getattr(self, e)) for e in self.var_names())
 
-    def toFileName(self):
-        var_names = [x for x in vars(self) if not x.startswith("_") and x in self._variety]
-        return 'Output_' + '_'.join(str(e) + "_" + str(getattr(self, e)).replace(".", "_") for e in var_names) + '.png'
+    def var_names(self):
+        return [x for x in vars(self) if not x.startswith("_")]
 
+    def values(self):
+        return dict(zip(self.var_names(), [getattr(self, e) for e in self.var_names()]))
+    
+    def output_dir(self):
+        return self._output_dir
 
 

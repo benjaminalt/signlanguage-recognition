@@ -28,7 +28,7 @@ class Visualizer:
         w, h = plt.figaspect(0.5)
         self.fig = plt.figure(figsize=(w, h))
         self.fig.suptitle('Hand Gesture Recognition', fontsize=18, y=0.96)
-        self.fig.canvas.mpl_connect('close_event', lambda evt: os._exit(0))
+        # self.fig.canvas.mpl_connect('close_event', lambda evt: os._exit(0))
 
         self.axLoss = self.fig.add_subplot(1, 2, 1)
         self.lineTrainLoss, = self.axLoss.plot([], [], 'b-')
@@ -75,7 +75,7 @@ class Visualizer:
         self.axAcc.set_xlim(0, self.progressLim)
 
         if self.finished:
-            self.fig.savefig(os.path.join(self.options.output_dir, time.strftime("%Y%m%d-%H%M%S") + ".png"))
+            self.fig.savefig(os.path.join(self.options.output_dir(), time.strftime("%Y%m%d-%H%M%S") + ".png"))
             self.finished = False
 
         return self.axLoss, self.axAcc,
@@ -103,5 +103,4 @@ class Visualizer:
             self.finished = True
 
             self._updateAnimation(0)
-
             plt.show()
