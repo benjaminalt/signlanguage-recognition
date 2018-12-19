@@ -22,7 +22,7 @@ def main():
     train_set = SignMNISTDataset(opts, train_path)
     test_set  = SignMNISTDataset(opts, test_path)
 
-    model = DeepCNN(opts)
+    model = CNNs.CNN_3(opts)
     
     # note: hiddenlayer library doesn't seem to work with the cuda variant of the model
     model_graph_file = opts.output_path("model")
