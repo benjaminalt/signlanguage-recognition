@@ -12,7 +12,7 @@ class Options:
 
         # enables grid search
         self.gridSearch = False
-        self.interactiveGUI = True
+        self.interactiveGUI = False
 
         # settings for single training
         self.use_cuda = torch.cuda.is_available()
