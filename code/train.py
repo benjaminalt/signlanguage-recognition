@@ -88,6 +88,15 @@ class ModelTrainer(object):
                 loss = loss_fn(outputs, labels)
 
                 values, pred_labels = outputs.max(dim=1)
+                '''
+                if (epoch == 0 or epoch == 9):
+                    print("values: ")
+                    print(values)
+                    print("pred_labels: ")
+                    print(pred_labels)
+                    print("labels: ")
+                    print(labels)
+                '''
                 test_accuracy += labels.eq(pred_labels).sum().item()
                 test_loss += loss.item()
 
