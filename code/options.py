@@ -16,8 +16,8 @@ class Options:
 
         # settings for single training
         self.use_cuda = torch.cuda.is_available()
-        self.batch_size            = 32
-        self.n_epochs              = 8
+        self.batch_size            = 256
+        self.n_epochs              = 10
         self.learning_rate         = 0.001
         self.weight_decay          = 0.0001
         self.shuffleTestData       = False

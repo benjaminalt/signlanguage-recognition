@@ -106,3 +106,53 @@ class CNN_3(torch.nn.Module):
 
     def forward(self, x):
         return self.net(x)
+
+class CNN_4(torch.nn.Module):
+
+    def __init__(self, options):
+        super(CNN_4, self).__init__()
+        
+        # input: [1 x 28 x 28]
+        self.conv1 = Conv(in_ch=1, out_ch=128, pool=False) # out: [128 x 28 x 28]
+        self.conv2 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 14 x 14]
+        
+        self.conv3 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 14 x 14]
+        self.conv4 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 7 x 7]
+        
+        self.conv5 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 7 x 7]
+        self.conv6 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 3 x 3]
+        
+        self.conv_net = torch.nn.Sequential(self.conv1, self.conv2, self.conv3, self.conv4, self.conv5, self.conv6)
+
+        self.flatten = Flatten()
+        self.fc = FC(in_size=64 * 3 * 3, out_size=256, dropout=0.5) # out: [256 x 1]
+        self.out = torch.nn.Linear(in_features=256, out_features=25) # out: [25 x 1]
+        self.net = torch.nn.Sequential(self.conv_net, self.flatten, self.fc, self.out)
+
+    def forward(self, x):
+        return self.net(x)
+
+class CNN_5(torch.nn.Module):
+
+    def __init__(self, options):
+        super(CNN_5, self).__init__()
+        
+        # input: [1 x 28 x 28]
+        self.conv1 = Conv(in_ch=1, out_ch=128, pool=False) # out: [128 x 28 x 28]
+        self.conv2 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 14 x 14]
+        
+        self.conv3 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 14 x 14]
+        self.conv4 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 7 x 7]
+        
+        self.conv5 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 7 x 7]
+        self.conv6 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 3 x 3]
+        
+        self.conv_net = torch.nn.Sequential(self.conv1, self.conv2, self.conv3, self.conv4, self.conv5, self.conv6)
+
+        self.flatten = Flatten()
+        self.fc = FC(in_size=64 * 3 * 3, out_size=256, dropout=0.95) # out: [256 x 1]
+        self.out = torch.nn.Linear(in_features=256, out_features=25) # out: [25 x 1]
+        self.net = torch.nn.Sequential(self.conv_net, self.flatten, self.fc, self.out)
+
+    def forward(self, x):
+        return self.net(x)
