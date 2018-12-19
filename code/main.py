@@ -7,7 +7,7 @@ from train import ModelTrainer
 import options
 
 from datasets.SignMNISTDataset import SignMNISTDataset
-from nets.DeepCNN import DeepCNN
+from nets import *
 from visualizer.Visualizer import Visualizer
 
 def main():
@@ -22,22 +22,19 @@ def main():
     train_set = SignMNISTDataset(opts, train_path)
     test_set  = SignMNISTDataset(opts, test_path)
 
+    model = DeepCNN(opts)
+    
+    # note: hiddenlayer library doesn't seem to work with the cuda variant of the model
+    model_graph_file = opts.output_path("model")
+    print("Generating model graph visualization at " + opts.root_relpath(model_graph_file) + " ...")
+    hl.build_graph(model, torch.zeros([1,1,28,28])).save(model_graph_file)
+
     # Check if using cuda:
     if opts.use_cuda:
         print("Using CUDA!")
+        model = model.cuda()
     else:
         print("Not using CUDA!")
-
-    model = DeepCNN(opts)
-    model = model.cuda() if opts.use_cuda else model
-    
-    # hiddenlayer library doesn't seem to work with the cuda variant of the model
-    if (opts.use_cuda):
-        print("Using CUDA model: Skipping generation of model graph visualization.")
-    else:
-        model_graph_file = opts.output_path("model")
-        print("Generating model graph visualization at " + opts.root_relpath(model_graph_file) + " ...")
-        hl.build_graph(model, torch.zeros([1,1,28,28])).save(model_graph_file)
 
     trainer = ModelTrainer()
     vis = Visualizer(opts)
