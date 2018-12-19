@@ -14,7 +14,7 @@ def main():
     opts = options.Options()
 
     # Create output directory:
-    os.makedirs(opts.output_dir, exist_ok=True)
+    os.makedirs(opts.output_dir(), exist_ok=True)
 
     train_path = opts.data_path("sign_mnist_train.csv")
     test_path = opts.data_path("sign_mnist_test.csv")
