@@ -29,7 +29,7 @@ class ModelTrainer(object):
         for epoch in range(options.n_epochs):
 
             # calculate test loss and accuracy
-            yield self._test(test_loader, test_set, model, loss_fn, epoch)
+            yield self._test(options, test_loader, test_set, model, loss_fn, epoch)
 
             # train
             print_every = n_batches // 10
@@ -38,7 +38,7 @@ class ModelTrainer(object):
             for i, data in enumerate(train_loader, 0):
                 labels = data['label']
                 inputs = data['image']
-                if torch.cuda.is_available():
+                if options.use_cuda:
                     inputs = inputs.type(torch.cuda.FloatTensor)
                     labels = labels.type(torch.cuda.LongTensor)
                 else:
@@ -63,11 +63,11 @@ class ModelTrainer(object):
                     start_time = time.time()
 
         # Final test at the end
-        _, self.final_test_loss, self.final_test_acc, _ = self._test(test_loader, test_set, model, loss_fn, epoch)
+        _, self.final_test_loss, self.final_test_acc, _ = self._test(options, test_loader, test_set, model, loss_fn, epoch)
         print("Training finished, took {:.2f}s".format(time.time() - training_start_time))
         return None
     
-    def _test(self, loader, test_set, model, loss_fn, epoch):
+    def _test(self, options, loader, test_set, model, loss_fn, epoch):
             print("[Test] Beginning with test with {} batches".format(len(loader)))
             test_starting_time = time.time()
 
@@ -76,7 +76,7 @@ class ModelTrainer(object):
             for i, data in enumerate(loader, 0):
                 labels = data['label']
                 inputs = data['image']
-                if torch.cuda.is_available():
+                if options.use_cuda:
                     inputs = inputs.type(torch.cuda.FloatTensor)
                     labels = labels.type(torch.cuda.LongTensor)
                 else:

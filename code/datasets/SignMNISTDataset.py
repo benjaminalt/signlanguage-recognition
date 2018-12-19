@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 class SignMNISTDataset(Dataset):
     """Sign language MNIST dataset."""
 
-    def __init__(self, input_path, options,transform=None):
+    def __init__(self, options, input_path, transform=None):
         """
         Args:
             input_path (string): Path to the csv file.
@@ -17,12 +17,12 @@ class SignMNISTDataset(Dataset):
         npy_file = os.path.splitext(input_path)[0]+'.npy'
 
         if not os.path.isfile(npy_file):
-            print("Loading data from " + csv_file + " ...")
+            print("Loading data from " + options.root_relpath(csv_file) + " ...")
             data = np.genfromtxt(csv_file, dtype="uint8", skip_header=1, delimiter=",")
-            print("Saving data to " + npy_file + " ...")
+            print("Saving data to " + options.root_relpath(npy_file) + " ...")
             np.save(npy_file, data)
         else:
-            print("Loading data from " + npy_file + " ...")
+            print("Loading data from " + options.root_relpath(npy_file) + " ...")
             data = np.load(npy_file)
 
         self.labels = data[:, 0].astype(dtype="int64")

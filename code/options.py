@@ -1,19 +1,21 @@
 from itertools import product
 import os, time
-
-RESULT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, "results")
-
+import torch
 
 class Options:
 
     def __init__(self):
-        self._output_dir = os.path.join(RESULT_DIR, time.strftime("%Y%m%d-%H%M%S"))
+        self.root_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir) # absolute path
+        self.data_dir = os.path.join(self.root_dir, "data")
+        self.result_dir = os.path.join(self.root_dir, "results")
+        self.output_dir = os.path.join(self.result_dir, time.strftime("%Y%m%d-%H%M%S"))
 
         # enables grid search
         self.gridSearch = False
         self.interactiveGUI = True
 
         # settings for single training
+        self.use_cuda = torch.cuda.is_available()
         self.batch_size            = 32
         self.n_epochs              = 8
         self.learning_rate         = 0.001
@@ -58,8 +60,15 @@ class Options:
 
     def values(self):
         return dict(zip(self.var_names(), [getattr(self, e) for e in self.var_names()]))
-    
-    def output_dir(self):
-        return self._output_dir
 
+    def root_path(self, relative_path):
+        return os.path.join(self.root_dir, relative_path)
 
+    def root_relpath(self, absolute_path):
+        return os.path.relpath(absolute_path, self.root_dir)
+
+    def data_path(self, relative_path):
+        return os.path.join(self.data_dir, relative_path)
+
+    def output_path(self, relative_path):
+        return os.path.join(self.output_dir, relative_path)
