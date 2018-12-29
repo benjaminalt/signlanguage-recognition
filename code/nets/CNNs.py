@@ -148,11 +148,16 @@ class CNN_5(torch.nn.Module):
         self.conv6 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 3 x 3]
         
         self.conv_net = torch.nn.Sequential(self.conv1, self.conv2, self.conv3, self.conv4, self.conv5, self.conv6)
+        self.features = self.conv_net
 
         self.flatten = Flatten()
         self.fc = FC(in_size=64 * 3 * 3, out_size=256, dropout=0.95) # out: [256 x 1]
         self.out = torch.nn.Linear(in_features=256, out_features=25) # out: [25 x 1]
+        self.classifier = torch.nn.Sequential(self.flatten, self.fc, self.out)
         self.net = torch.nn.Sequential(self.conv_net, self.flatten, self.fc, self.out)
 
     def forward(self, x):
-        return self.net(x)
+        feature_activation = self.features(x)
+        classification = self.classifier(feature_activation)
+        return classification
+        #return self.net(x)
