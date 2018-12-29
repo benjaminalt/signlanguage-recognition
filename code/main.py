@@ -2,6 +2,7 @@ import os
 import torch
 import hiddenlayer as hl
 import csv
+import argparse
 
 from train import ModelTrainer
 import options
@@ -10,7 +11,7 @@ from datasets.SignMNISTDataset import SignMNISTDataset
 from nets import *
 from visualizer.Visualizer import Visualizer
 
-def main():
+def main(args):
     opts = options.Options()
 
     # Create output directory:
@@ -59,6 +60,13 @@ def main():
             csv_dict = opts.values()    
             csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc})
             writer.writerow(csv_dict)
+    
+    # Save weights (optional)
+    if args.save_weights:
+        torch.save(model.state_dict(), opts.output_path("weights.pt"))
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--save_weights", action="store_true")
+    parser.add_argument("--grad_cam", action="store_true")
+    main(parser.parse_args())
