@@ -1,11 +1,13 @@
 from itertools import product
-import os, time
+import os
+import time
 import torch
+
 
 class Options:
 
     def __init__(self):
-        self._root_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir) # absolute path
+        self._root_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)  # absolute path
         self._data_dir = os.path.join(self._root_dir, "data")
         self._results_dir = os.path.join(self._root_dir, "results")
         self._output_dir = os.path.join(self._results_dir, time.strftime("%Y%m%d-%H%M%S"))
@@ -15,16 +17,18 @@ class Options:
         self.interactiveGUI = False
 
         # settings for single training
-        self.use_cuda = torch.cuda.is_available()
+        self.use_cuda              = torch.cuda.is_available()
         self.batch_size            = 256
-        self.n_epochs              = 1
+        self.n_epochs              = 10
         self.learning_rate         = 0.001
         self.weight_decay          = 0.0001
         self.shuffleTestData       = False
         self.shuffleTrainData      = True
         self.dropout_probability_1 = 0.2
         self.dropout_probability_2 = 0.2
-        self.dropout_probability_3 = 0.2 
+        self.dropout_probability_3 = 0.2
+        self.use_batchnorm_cnn     = True
+        self.use_batchnorm_linear  = True
 
         # changes of above setting during grid search
         self._variety = {
@@ -32,7 +36,9 @@ class Options:
             "learning_rate":         [0.1, 0.001, 0.0001],
             "weight_decay":          [0.001, 0.0005, 0.0001],
             "dropout_probability_1": [0.0, 0.25, 0.5],
-            "dropout_probability_2": [0.0, 0.25, 0.5]
+            "dropout_probability_2": [0.0, 0.25, 0.5],
+            "use_batchnorm_cnn":     [True, False],
+            "use_batchnorm_linear":  [True, False]
         }
 
     def iter(self):
@@ -62,16 +68,16 @@ class Options:
         return dict(zip(self.var_names(), [getattr(self, e) for e in self.var_names()]))
 
     def root_dir(self):
-        return self._root_dir;
+        return self._root_dir
 
     def data_dir(self):
-        return self._data_dir;
+        return self._data_dir
 
     def results_dir(self):
-        return self._results_dir;
+        return self._results_dir
 
     def output_dir(self):
-        return self._output_dir;
+        return self._output_dir
 
     def root_path(self, relative_path):
         return os.path.join(self._root_dir, relative_path)
