@@ -36,8 +36,8 @@ class ModelTrainer(object):
             start_time = time.time()
 
             for i, data in enumerate(train_loader, 0):
-                labels = data['label']
-                inputs = data['image']
+                labels = data[1]
+                inputs = data[0]
                 if options.use_cuda:
                     inputs = inputs.type(torch.cuda.FloatTensor)
                     labels = labels.type(torch.cuda.LongTensor)
@@ -74,8 +74,8 @@ class ModelTrainer(object):
             test_accuracy = 0
             test_loss = 0
             for i, data in enumerate(loader, 0):
-                labels = data['label']
-                inputs = data['image']
+                labels = data[1]
+                inputs = data[0]
                 if options.use_cuda:
                     inputs = inputs.type(torch.cuda.FloatTensor)
                     labels = labels.type(torch.cuda.LongTensor)
@@ -100,7 +100,7 @@ class ModelTrainer(object):
                 test_accuracy += labels.eq(pred_labels).sum().item()
                 test_loss += loss.item()
 
-            test_accuracy /= len(test_set.labels)
+            test_accuracy /= len(test_set)
             test_loss /= len(loader)
             print("[Test] Test finished, loss: {:.2f}, acc: {:.2f}, time: {:.2f}s".format(test_loss, test_accuracy, time.time() - test_starting_time))
             return True, test_loss, test_accuracy, epoch

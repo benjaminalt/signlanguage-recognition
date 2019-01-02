@@ -7,7 +7,10 @@ import argparse
 from train import ModelTrainer
 import options
 
-from datasets.SignMNISTDataset import SignMNISTDataset
+# from datasets.SignMNISTDataset import SignMNISTDataset
+from torchvision.datasets.mnist import MNIST
+from torchvision import transforms
+
 from nets import *
 from visualizer.Visualizer import Visualizer
 
@@ -17,11 +20,20 @@ def main(args):
     # Create output directory:
     os.makedirs(opts.output_dir(), exist_ok=True)
 
-    train_path = opts.data_path("sign_mnist_train.csv")
-    test_path = opts.data_path("sign_mnist_test.csv")
+    # train_path = opts.data_path("sign_mnist_train.csv")
+    # test_path = opts.data_path("sign_mnist_test.csv")
 
-    train_set = SignMNISTDataset(opts, train_path)
-    test_set  = SignMNISTDataset(opts, test_path)
+    # train_set = SignMNISTDataset(opts, train_path)
+    # test_set  = SignMNISTDataset(opts, test_path)
+
+
+    transform = transforms.Compose([
+        # you can add other transformations in this list
+        transforms.ToTensor()
+    ])
+
+    train_set = MNIST(opts.data_dir(), train=True, download=True, transform=transform)
+    test_set = MNIST(opts.data_dir(), train=False, download=True, transform=transform)
 
     model = CNNs.CNN_5(opts)
     
