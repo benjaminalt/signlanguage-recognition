@@ -65,6 +65,7 @@ def main(args):
     if args.save_weights:
         torch.save(model.state_dict(), opts.output_path("weights.pt"))
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--save_weights", action="store_true")
