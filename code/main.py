@@ -63,14 +63,15 @@ def main(args):
             writer.writerow(csv_dict)
     
     # Save weights
-    torch.save(model.state_dict(), opts.output_path("weights.pt"))
+    weights_file = opts.output_path("weights.pt")
+    print("Saving model weights at " + opts.root_relpath(weights_file) + " ...")
+    torch.save(model.state_dict(), weights_file)
 
     if args.grad_cam:
         print("Generating GradCAM visualization...")
         visualizer = GradCamVisualizer(opts)
         for n_layer in range(6):
             visualizer.visualize(model, n_layer, train_set[0]["image"], train_set[0]["label"])
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
