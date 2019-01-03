@@ -2,17 +2,19 @@ import torch
 
 class Conv(torch.nn.Module):
 
-    def __init__(self, in_ch, out_ch, kernel=3, stride_=1, pad=1, pool=False):
+    def __init__(self, in_ch, out_ch, kernel=3, stride_=1, pad=1, pool=False, batchnorm=False):
         super(Conv, self).__init__()
         
         self.conv = torch.nn.Conv2d(in_channels=in_ch, out_channels=out_ch, kernel_size=kernel, stride=stride_, padding=pad)
+        self.bn = torch.nn.BatchNorm2d(out_ch)
         self.relu = torch.nn.ELU()
-        if (pool):
+        self.basic_net = torch.nn.Sequential(self.conv, self.bn, self.relu) if batchnorm else torch.nn.Sequential(self.conv, self.relu)
+        if pool:
             self.pool = torch.nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
-            self.net = torch.nn.Sequential(self.conv, self.relu, self.pool)
+            self.net = torch.nn.Sequential(self.basic_net, self.pool)
         else:
-            self.net = torch.nn.Sequential(self.conv, self.relu)
-    
+            self.net = self.basic_net
+ 
     def forward(self, x):
         return self.net(x)
 
@@ -137,15 +139,17 @@ class CNN_5(torch.nn.Module):
     def __init__(self, options):
         super(CNN_5, self).__init__()
         
+        bn = options.use_batchnorm_cnn
+
         # input: [1 x 28 x 28]
-        self.conv1 = Conv(in_ch=1, out_ch=128, pool=False) # out: [128 x 28 x 28]
-        self.conv2 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 14 x 14]
+        self.conv1 = Conv(in_ch=1, out_ch=128, pool=False, batchnorm=bn) # out: [128 x 28 x 28]
+        self.conv2 = Conv(in_ch=128, out_ch=64, pool=True, batchnorm=bn) # out: [64 x 14 x 14]
         
-        self.conv3 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 14 x 14]
-        self.conv4 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 7 x 7]
+        self.conv3 = Conv(in_ch=64, out_ch=128, pool=False, batchnorm=bn) # out: [128 x 14 x 14]
+        self.conv4 = Conv(in_ch=128, out_ch=64, pool=True, batchnorm=bn) # out: [64 x 7 x 7]
         
-        self.conv5 = Conv(in_ch=64, out_ch=128, pool=False) # out: [128 x 7 x 7]
-        self.conv6 = Conv(in_ch=128, out_ch=64, pool=True) # out: [64 x 3 x 3]
+        self.conv5 = Conv(in_ch=64, out_ch=128, pool=False, batchnorm=bn) # out: [128 x 7 x 7]
+        self.conv6 = Conv(in_ch=128, out_ch=64, pool=True, batchnorm=bn) # out: [64 x 3 x 3]
         
         self.conv_net = torch.nn.Sequential(self.conv1, self.conv2, self.conv3, self.conv4, self.conv5, self.conv6)
         self.features = self.conv_net
