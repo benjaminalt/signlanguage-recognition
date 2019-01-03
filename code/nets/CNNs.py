@@ -139,7 +139,7 @@ class CNN_5(torch.nn.Module):
     def __init__(self, options):
         super(CNN_5, self).__init__()
         
-        bn = options.use_batchnorm_cnn
+        bn = options.use_batchnorm
 
         # input: [1 x 28 x 28]
         self.conv1 = Conv(in_ch=1, out_ch=128, pool=False, batchnorm=bn) # out: [128 x 28 x 28]

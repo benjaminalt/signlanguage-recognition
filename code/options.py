@@ -27,8 +27,7 @@ class Options:
         self.dropout_probability_1 = 0.2
         self.dropout_probability_2 = 0.2
         self.dropout_probability_3 = 0.2
-        self.use_batchnorm_cnn     = True
-        self.use_batchnorm_linear  = False
+        self.use_batchnorm         = True
 
         # changes of above setting during grid search
         self._variety = {
@@ -37,8 +36,7 @@ class Options:
             "weight_decay":          [0.001, 0.0005, 0.0001],
             "dropout_probability_1": [0.0, 0.25, 0.5],
             "dropout_probability_2": [0.0, 0.25, 0.5],
-            "use_batchnorm_cnn":     [True, False],
-            "use_batchnorm_linear":  [True, False]
+            "use_batchnorm":         [True, False],
         }
 
     def iter(self):

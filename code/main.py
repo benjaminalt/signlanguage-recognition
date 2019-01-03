@@ -6,6 +6,7 @@ import argparse
 
 from train import ModelTrainer
 import options
+import logger
 
 from datasets.SignMNISTDataset import SignMNISTDataset
 from nets import *
@@ -17,6 +18,10 @@ def main(args):
 
     # Create output directory:
     os.makedirs(opts.output_dir(), exist_ok=True)
+
+    # Log output and error messages
+    logger.OutputLogger(opts)
+    logger.ErrorLogger(opts)
 
     train_path = opts.data_path("sign_mnist_train.csv")
     test_path = opts.data_path("sign_mnist_test.csv")
