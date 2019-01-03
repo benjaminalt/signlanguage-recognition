@@ -28,7 +28,7 @@ class Options:
         self.dropout_probability_2 = 0.2
         self.dropout_probability_3 = 0.2
         self.use_batchnorm_cnn     = True
-        self.use_batchnorm_linear  = True
+        self.use_batchnorm_linear  = False
 
         # changes of above setting during grid search
         self._variety = {
