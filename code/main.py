@@ -10,6 +10,7 @@ import options
 from datasets.SignMNISTDataset import SignMNISTDataset
 from nets import *
 from visualizer.Visualizer import Visualizer
+from visualizer.GradCamVisualizer import GradCamVisualizer
 
 def main(args):
     opts = options.Options()
@@ -64,7 +65,14 @@ def main(args):
     # Save weights
     torch.save(model.state_dict(), opts.output_path("weights.pt"))
 
+    if args.grad_cam:
+        print("Generating GradCAM visualization...")
+        visualizer = GradCamVisualizer(opts)
+        for n_layer in range(6):
+            visualizer.visualize(model, n_layer, train_set[0]["image"], train_set[0]["label"])
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--grad_cam", action='store_true')
     main(parser.parse_args())
