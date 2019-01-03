@@ -61,13 +61,10 @@ def main(args):
             csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc})
             writer.writerow(csv_dict)
     
-    # Save weights (optional)
-    if args.save_weights:
-        torch.save(model.state_dict(), opts.output_path("weights.pt"))
+    # Save weights
+    torch.save(model.state_dict(), opts.output_path("weights.pt"))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--save_weights", action="store_true")
-    parser.add_argument("--grad_cam", action="store_true")
     main(parser.parse_args())
