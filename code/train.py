@@ -56,7 +56,7 @@ class ModelTrainer(object):
                     values, pred_labels = outputs.max(dim=1)
                     accuracy = labels.eq(pred_labels).float().mean()
 
-                    print("[Train] Epoch {}, {:d}% \t loss: {:.2f}, acc: {:.2f}, time: {:.2f}s".format(
+                    print("[Train] Epoch {}, {:d}% \t loss: {:.4f}, acc: {:.4f}, time: {:.2f}s".format(
                         epoch + 1, int(100 * (i + 1) / n_batches), loss.item(), accuracy, time.time() - start_time))
 
                     yield False, loss.item(), accuracy.item(), epoch + (i + 1) / n_batches
@@ -102,5 +102,5 @@ class ModelTrainer(object):
 
             test_accuracy /= len(test_set.labels)
             test_loss /= len(loader)
-            print("[Test] Test finished, loss: {:.2f}, acc: {:.2f}, time: {:.2f}s".format(test_loss, test_accuracy, time.time() - test_starting_time))
+            print("[Test] Test finished, loss: {:.4f}, acc: {:.4f}, time: {:.2f}s".format(test_loss, test_accuracy, time.time() - test_starting_time))
             return True, test_loss, test_accuracy, epoch
