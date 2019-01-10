@@ -14,7 +14,7 @@ We recommend to use the Python distribution [Anaconda](https://www.anaconda.com/
 ```
 conda create --name signlanguage-env
 source activate signlanguage-env
-conda install graphviz python-graphviz
+conda install graphviz python-graphviz matplotlib ipython opencv
 conda install pytorch torchvision -c pytorch
 cd signlanguage-recognition
 pip install -r requirements.txt
@@ -31,7 +31,7 @@ source activate signlanguage-env
 To train the neural network, simply run `main.py`:
 ```
 cd signlanguage-recognition/code
-python main.py
+python main.py train
 ```
 This will create a timestamped directory in `signlanguage-recognition/results`, which contains
 
@@ -43,3 +43,11 @@ This will create a timestamped directory in `signlanguage-recognition/results`, 
 If `--grad_cam` was passed to `main.py` as a command-line argument (`python main.py --grad_cam`), the results directory will also contain GradCAM-visualizations for each convolutional layer of the model.
 
 You can tweak the parameters of the model by adapting `code/options.py`.
+
+### Testing a model
+```
+cd signlanguage-recognition/code
+python main.py test --weights path/to/weights.pt --data path/to/data.csv
+```
+This will construct a model with the given weights and use it to classify the provided data.
+The resulting accuracy will be printed.
