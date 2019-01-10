@@ -19,14 +19,14 @@ class Options:
         # settings for single training
         self.use_cuda              = torch.cuda.is_available()
         self.batch_size            = 256
-        self.n_epochs              = 10
+        self.n_epochs              = 5
         self.learning_rate         = 0.001
         self.weight_decay          = 0.0001
         self.shuffleTestData       = False
         self.shuffleTrainData      = True
-        self.dropout_probability_1 = 0.2
-        self.dropout_probability_2 = 0.2
-        self.dropout_probability_3 = 0.2
+        self.dropout_probability_1 = 0.95
+        # self.dropout_probability_2 = 0.2
+        # self.dropout_probability_3 = 0.2
         self.use_batchnorm         = True
 
         # changes of above setting during grid search
@@ -34,8 +34,7 @@ class Options:
             "batch_size":            [128, 64, 32, 16, 8, 1],
             "learning_rate":         [0.1, 0.001, 0.0001],
             "weight_decay":          [0.001, 0.0005, 0.0001],
-            "dropout_probability_1": [0.0, 0.25, 0.5],
-            "dropout_probability_2": [0.0, 0.25, 0.5],
+            "dropout_probability_1": [0.5, 0.75, 0.8, 0.85, 0.9, 0.95, 0.975],
             "use_batchnorm":         [True, False],
         }
 
