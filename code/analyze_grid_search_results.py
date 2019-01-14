@@ -6,6 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import math
+from tqdm import tqdm
 
 opts = options.Options()
 os.makedirs(opts.output_dir())
@@ -49,7 +50,8 @@ def main(args):
     df = df.drop([col for col in df.columns if not (col in variable_cols or col == "final_test_acc")], "columns")
     best_configuration = find_optimal_configuration(df)
     plot_column_correlations(df)
-    scatter_plot(df, "learning_rate", "final_test_acc")
+    for col in tqdm([col for col in df.columns if col not in ["final_test_acc", "use_batchnorm"]]):
+        scatter_plot(df, col, "final_test_acc")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

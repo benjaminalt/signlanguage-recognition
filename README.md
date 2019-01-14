@@ -14,7 +14,7 @@ We recommend to use the Python distribution [Anaconda](https://www.anaconda.com/
 ```
 conda create --name signlanguage-env
 source activate signlanguage-env
-conda install graphviz python-graphviz matplotlib ipython opencv
+conda install graphviz python-graphviz matplotlib ipython opencv pandas scipy
 conda install pytorch torchvision -c pytorch
 cd signlanguage-recognition
 pip install -r requirements.txt
