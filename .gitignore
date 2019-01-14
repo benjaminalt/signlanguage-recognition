@@ -7,3 +7,8 @@ __pycache__/
 *.pydevproject
 *.settings
 *.npy
+
+data/custom_dataset_*
+data/raw
+data/processed
+*_extracted*
