@@ -1,10 +1,15 @@
 import sys
 import os
 import time
+
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
 
 class OutputLogger:
+    """
+    Duplicates standard output stream in order to write outputs at the console and also save them to a log file.
+    """
+
     def __init__(self, options):
         self.file = open(os.path.join(options.output_dir(), "OutputLog.txt"), "w+")
         self.stdout = sys.stdout
@@ -27,10 +32,14 @@ class OutputLogger:
 
 
 class ErrorLogger:
+    """
+        Duplicates error output stream in order to write errors at the console and also save them to a log file.
+    """
+
     def __init__(self, options):
-        self.file   = open(os.path.join(options.output_dir(), "ErrorLog.txt"), "w+")
+        self.file = open(os.path.join(options.output_dir(), "ErrorLog.txt"), "w+")
         self.stderr = sys.stderr
-        sys.stderr  = self
+        sys.stderr = self
         self.last_char = '\n'
 
     def __del__(self):

@@ -1,28 +1,36 @@
+"""
+Script to analyze grid search results.
+"""
+
 import os
 import argparse
 import pandas as pd
 import options
 import matplotlib
+
 matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
-import math
 from tqdm import tqdm
 
 opts = options.Options()
 os.makedirs(opts.output_dir())
 variable_cols = opts._variety.keys()
 
+
 def split_and_titlecase(text):
     return " ".join(text.split("_")).title()
 
+
 def find_optimal_configuration(data):
-    max_acc_row = data.loc[data["final_test_acc"].idxmax(),:]
-    print("="*40)
+    max_acc_row = data.loc[data["final_test_acc"].idxmax(), :]
+    print("=" * 40)
     print("Optimal configuration")
-    print("-"*40)
+    print("-" * 40)
     print(max_acc_row)
-    print("="*40)
+    print("=" * 40)
     return max_acc_row
+
 
 def plot_column_correlations(data):
     correlations = {}
@@ -36,6 +44,7 @@ def plot_column_correlations(data):
     plt.ylabel("Correlation")
     plt.savefig(opts.output_path("correlations.png"), bbox_inches="tight")
 
+
 def scatter_plot(data, x, y):
     data.plot.scatter(x=x, y=y)
     x_title = split_and_titlecase(x)
@@ -43,7 +52,8 @@ def scatter_plot(data, x, y):
     plt.title("{} vs. {}".format(x_title, y_title))
     plt.xlabel(x_title)
     plt.ylabel(y_title)
-    plt.savefig(opts.output_path("{}_vs_{}.png".format(x,y)), bbox_inches="tight")
+    plt.savefig(opts.output_path("{}_vs_{}.png".format(x, y)), bbox_inches="tight")
+
 
 def main(args):
     df = pd.read_csv(args.input_csv)
@@ -52,6 +62,7 @@ def main(args):
     plot_column_correlations(df)
     for col in tqdm([col for col in df.columns if col not in ["final_test_acc", "use_batchnorm"]]):
         scatter_plot(df, col, "final_test_acc")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

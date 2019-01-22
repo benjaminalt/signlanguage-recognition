@@ -13,19 +13,27 @@ from nets import *
 from visualizer.Visualizer import Visualizer
 from visualizer.GradCamVisualizer import GradCamVisualizer
 
+
 def grad_cam(model, img, label, opts):
+    """
+    Create a gradient class activation map from model and store it
+    """
+
     print("Generating GradCAM visualization...")
     visualizer = GradCamVisualizer(opts)
     for n_layer in range(6):
         visualizer.visualize(model, n_layer, img, label)
 
+
 def train(model, train_set, test_set, opts):
     """
     Train model, create visualization & document results in CSV file
     """
+
     print("Training model...")
     trainer = ModelTrainer()
     vis = Visualizer(opts)
+
     with open(opts.output_path("results.csv"), "w") as csv_file:
         fieldnames = opts.var_names()
         fieldnames.extend(["final_test_loss", "final_test_acc"])
@@ -42,22 +50,33 @@ def train(model, train_set, test_set, opts):
                 csv_file.flush()
 
         else:
-            vis.show(lambda : trainer.trainModel(model, train_set, test_set, opts))
-            csv_dict = opts.values()    
+            vis.show(lambda: trainer.trainModel(model, train_set, test_set, opts))
+            csv_dict = opts.values()
             csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc})
             writer.writerow(csv_dict)
 
+
 def test(model, data_filepath, opts):
+    """
+    Test a given pytorch model by calculating the loss and accuracy
+    """
+
     print("Evaluating model on {}...".format(data_filepath))
-    test_set  = SignMNISTDataset(opts, data_filepath)
-    trainer = ModelTrainer()
-    test_loader  = torch.utils.data.DataLoader(test_set, batch_size=opts.batch_size, shuffle=opts.shuffleTestData, num_workers=1)
-    _, loss, acc, _ = trainer.test(opts, test_loader, test_set, model, torch.nn.CrossEntropyLoss(), 0)
+    test_set = SignMNISTDataset(opts, data_filepath)
+    test_loader = torch.utils.data.DataLoader(test_set, batch_size=opts.batch_size, shuffle=opts.shuffleTestData, num_workers=1)
+    _, loss, acc, _ = ModelTrainer.test(opts, test_loader, test_set, model, torch.nn.CrossEntropyLoss(), 0)
     print("Loss: {}".format(loss))
     print("Accuracy: {}".format(acc))
 
 
 def main(args):
+    """
+    Main function of sign-language recognition
+    :param args: Command line arguments
+    :return: nothing
+    """
+
+    # Create default option parameters
     opts = options.Options()
 
     # Create output directory:
@@ -68,22 +87,26 @@ def main(args):
     logger.ErrorLogger(opts)
 
     train_path = opts.data_path("sign_mnist_train.csv")
-    test_path = opts.data_path("sign_mnist_test.csv")
+    test_path  = opts.data_path("sign_mnist_test.csv")
 
     train_set = SignMNISTDataset(opts, train_path)
     test_set  = SignMNISTDataset(opts, test_path)
 
+    # Load a neural net model (different models are available in the sub-folder "nets")
     model = CNNs.CNN_5(opts)
 
+    # Optionally load previously calculated weights
     if args.weights is not None and os.path.isfile(args.weights):
         print("Loading model from {}".format(args.weights))
         model.load_state_dict(torch.load(args.weights))
-    
-    model_graph_file = opts.output_path("model")
-    print("Generating model graph visualization at " + opts.root_relpath(model_graph_file) + " ...")
-    hl.build_graph(model, torch.zeros([1,1,28,28])).save(model_graph_file)
 
-    # Check if using cuda:
+    model_graph_file = opts.output_path("model")
+
+    # Generate model graph visualization
+    print("Generating model graph visualization at " + opts.root_relpath(model_graph_file) + " ...")
+    hl.build_graph(model, torch.zeros([1, 1, 28, 28])).save(model_graph_file)
+
+    # Check if CUDA is used
     if opts.use_cuda:
         print("Using CUDA!")
         model = model.cuda()
@@ -91,18 +114,25 @@ def main(args):
         print("Not using CUDA!")
 
     if args.mode == "train":
+        # Train model and save weights subsequently
         train(model, train_set, test_set, opts)
-        # Save weights
         weights_file = opts.output_path("weights.pt")
         print("Saving model weights at " + opts.root_relpath(weights_file) + " ...")
         torch.save(model.state_dict(), weights_file)
+
     elif args.mode == "test":
+        # Test model
         if args.data is None or not os.path.isfile(args.data):
             raise ValueError("Invalid parameter 'data'")
         test(model, args.data, opts)
 
+    else:
+        raise ValueError("Invalid mode '{}' given by argument".format(args.mode))
+
+    # Optionally create gradient class activation map
     if args.grad_cam:
         grad_cam(model, train_set[0]["image"], train_set[0]["label"], opts)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

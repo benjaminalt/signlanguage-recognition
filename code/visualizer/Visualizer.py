@@ -2,11 +2,13 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import queue
 from threading import Thread
-import os
 import time
 
 
 class Visualizer:
+    """
+    Create and display the loss and accuracy during (or after) training using matplotlib.
+    """
 
     def __init__(self, options):
         self.options = options
@@ -16,11 +18,11 @@ class Visualizer:
         self.finished = False
 
         # only used by main thread (all list of train/test have to have the same length)
-        self.train_loss     = []
+        self.train_loss = []
         self.train_accuracy = []
         self.train_progress = []
 
-        self.test_loss     = []
+        self.test_loss = []
         self.test_accuracy = []
         self.test_progress = []
 
@@ -28,11 +30,10 @@ class Visualizer:
         w, h = plt.figaspect(0.5)
         self.fig = plt.figure(figsize=(w, h))
         self.fig.suptitle('Hand Gesture Recognition', fontsize=18, y=0.96)
-        # self.fig.canvas.mpl_connect('close_event', lambda evt: os._exit(0))
 
         self.axLoss = self.fig.add_subplot(1, 2, 1)
         self.lineTrainLoss, = self.axLoss.plot([], [], 'b-')
-        self.lineTestLoss,  = self.axLoss.plot([], [], 'r-')
+        self.lineTestLoss, = self.axLoss.plot([], [], 'r-')
         self.axLoss.set_ylim(0, 1)
         self.axLoss.set_xlim(0, 1)
         self.axLoss.legend(['Train Loss', 'Test Loss'], loc="upper right")
@@ -44,10 +45,13 @@ class Visualizer:
         self.axAcc.set_xlim(0, 1)
         self.axAcc.legend(['Train Accuracy', 'Test Accuracy'], loc="lower right")
 
-        self.lossLim     = 4
+        self.lossLim = 4
         self.progressLim = 5
 
     def _updateAnimation(self, frame):
+        """
+        Update matplot figure.
+        """
 
         # fetch new data from the calculation thread
         while not self.data_queue.empty():
@@ -81,6 +85,10 @@ class Visualizer:
         return self.axLoss, self.axAcc,
 
     def show(self, resultGenerator):
+        """
+        Start an (potentially real time updating) GUI to show the results
+        """
+
         self.finished = False
 
         if self.options.interactiveGUI:

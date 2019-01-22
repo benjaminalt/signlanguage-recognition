@@ -6,8 +6,7 @@ class SimpleCNN(torch.nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
 
-        self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=18, kernel_size=3, stride=1,
-                                     padding=1)  # out: [18 x 28 x 28]
+        self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=18, kernel_size=3, stride=1, padding=1)  # out: [18 x 28 x 28]
         self.relu1 = torch.nn.ReLU()
         self.pool1 = torch.nn.MaxPool2d(kernel_size=2, stride=2, padding=0)  # out: [18 x 14 x 14]
         self.net = torch.nn.Sequential(self.conv1, self.relu1, self.pool1)
