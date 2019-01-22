@@ -14,7 +14,7 @@ class SignMNISTDataset(Dataset):
         """
 
         csv_file = input_path
-        npy_file = os.path.splitext(input_path)[0]+'.npy'
+        npy_file = os.path.splitext(input_path)[0] + '.npy'
 
         if not os.path.isfile(npy_file):
             print("Loading data from " + options.root_relpath(csv_file) + " ...")
