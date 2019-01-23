@@ -131,8 +131,8 @@ def main(args):
         # Random additional data augmentation:
         # Note: Using more augmentations might require slightly more epochs for best results
         train_transform = transforms.Compose([
-            transforms.RandomResizedCrop(size=28, scale=(0.9, 1.0)), # this works really well
-            transforms.RandomRotation(degrees=20)#,
+            transforms.RandomResizedCrop(size=28, scale=(0.9, 1.0))#, # this works really well
+            #transforms.RandomRotation(degrees=20)#,
             #transforms.RandomHorizontalFlip(p=0.1) # this might require an increased number of epochs
         ])
 
