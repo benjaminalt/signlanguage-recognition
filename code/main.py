@@ -14,17 +14,6 @@ from visualizer.Visualizer import Visualizer
 from visualizer.GradCamVisualizer import GradCamVisualizer
 
 
-def grad_cam(model, img, label, opts):
-    """
-    Create a gradient class activation map from model and store it
-    """
-
-    print("Generating GradCAM visualization...")
-    visualizer = GradCamVisualizer(opts)
-    for n_layer in range(6):
-        visualizer.visualize(model, n_layer, img, label)
-
-
 def train(model, train_set, test_set, opts):
     """
     Train model, create visualization & document results in CSV file
@@ -69,6 +58,21 @@ def test(model, data_filepath, opts):
     print("Accuracy: {}".format(acc))
 
 
+def visualize(model, data_filepath, opts):
+    """
+    Generate and store various visualizations for a given model
+    """
+
+    test_set = SignMNISTDataset(opts, data_filepath)
+    print("Generating GradCAM visualization...")
+    visualizer = GradCamVisualizer(opts)
+    for idx, sample in enumerate(test_set):
+        output_dir = os.path.join(opts.output_path("gradcam"), str(idx))
+        os.makedirs(output_dir)
+        for n_layer in range(6):
+            visualizer.visualize(model, n_layer, sample["image"], sample["label"], output_dir, "gradcam_{}".format(n_layer))
+    print("Done.")
+
 def main(args):
     """
     Main function of sign-language recognition
@@ -86,12 +90,6 @@ def main(args):
     logger.OutputLogger(opts)
     logger.ErrorLogger(opts)
 
-    train_path = opts.data_path("sign_mnist_train.csv")
-    test_path  = opts.data_path("sign_mnist_test.csv")
-
-    train_set = SignMNISTDataset(opts, train_path)
-    test_set  = SignMNISTDataset(opts, test_path)
-
     # Load a neural net model (different models are available in the sub-folder "nets")
     # Good choices:
     # CNN_3, dropout=0.90-0.95
@@ -104,7 +102,7 @@ def main(args):
     # Optionally load previously calculated weights
     if args.weights is not None and os.path.isfile(args.weights):
         print("Loading model from {}".format(args.weights))
-        model.load_state_dict(torch.load(args.weights))
+        model.load_state_dict(torch.load(args.weights, map_location="cpu"))
 
     model_graph_file = opts.output_path("model")
 
@@ -121,6 +119,11 @@ def main(args):
 
     if args.mode == "train":
         # Train model and save weights subsequently
+        train_path = opts.data_path("sign_mnist_train.csv")
+        test_path  = opts.data_path("sign_mnist_test.csv")
+
+        train_set = SignMNISTDataset(opts, train_path)
+        test_set  = SignMNISTDataset(opts, test_path)
         train(model, train_set, test_set, opts)
         weights_file = opts.output_path("weights.pt")
         print("Saving model weights at " + opts.root_relpath(weights_file) + " ...")
@@ -132,18 +135,19 @@ def main(args):
             raise ValueError("Invalid parameter 'data'")
         test(model, args.data, opts)
 
+    elif args.mode == "visualize":
+        # Visualize model
+        if args.data is None or not os.path.isfile(args.data):
+            raise ValueError("Invalid parameter 'data'")
+        visualize(model, args.data, opts)
+
     else:
         raise ValueError("Invalid mode '{}' given by argument".format(args.mode))
-
-    # Optionally create gradient class activation map
-    if args.grad_cam:
-        grad_cam(model, train_set[0]["image"], train_set[0]["label"], opts)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("mode", type=str, help="train|test")
+    parser.add_argument("mode", type=str, help="train|test|visualize")
     parser.add_argument("--weights", type=str, help="Path to pytorch (.pt) file containing the learned weights for initializing the model")
-    parser.add_argument("--data", type=str, help="Path to CSV file containing the test data")
-    parser.add_argument("--grad_cam", action='store_true')
+    parser.add_argument("--data", type=str, help="Path to CSV file containing the test data (in 'test' or 'visualize' mode only)")
     main(parser.parse_args())

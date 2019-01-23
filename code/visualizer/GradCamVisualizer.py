@@ -21,16 +21,17 @@ class GradCamVisualizer(object):
     def __init__(self, options):
         self.options = options
 
-    def visualize(self, model, target_layer, input_img, label):
+    def visualize(self, model, target_layer, input_img, label, output_path, output_prefix):
         grad_cam = gradcam.GradCam(model, target_layer=target_layer)
         preprocessed_img = GradCamVisualizer._preprocess_img(input_img)
-        preprocessed_img.save(self.options.output_path("gradcam_input_img.jpg"))
+        # Save original image
+        preprocessed_img.save(os.path.join(output_path, output_prefix) + "original.png")
+        # Generate cam mask
         inputs = torch.from_numpy(np.expand_dims(input_img, 0))
         inputs = inputs.type(torch.FloatTensor)
-        # Generate cam mask
         cam = grad_cam.generate_cam(inputs, label)
         # Save mask
-        gradcam_misc.save_class_activation_images(preprocessed_img, cam, self.options.output_path("gradcam_{}".format(target_layer)))
+        gradcam_misc.save_class_activation_images(preprocessed_img, cam, os.path.join(output_path, output_prefix))
         return
 
     @staticmethod
