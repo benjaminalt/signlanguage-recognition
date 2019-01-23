@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import PIL
 from torch.utils.data import Dataset
 
 
@@ -36,6 +37,11 @@ class SignMNISTDataset(Dataset):
         label = self.labels[idx]
         image = self.images[idx]
         if self.transform:
-            image = self.transform(image)
+            # Do some conversions for the transforms to work:
+            imgn = image.reshape((28, 28)) # reshape for PIL
+            imgp = PIL.Image.fromarray(imgn) # numpy to PIL
+            imgp2 = self.transform(imgp) # apply transform
+            imgn2 = np.array(imgp2) # PIL to numpy
+            image = imgn2.reshape((1, 28, 28)) # reshape back for net
         sample = {'label': label, 'image': image}
         return sample
