@@ -3,6 +3,7 @@ import torch
 import hiddenlayer as hl
 import csv
 import argparse
+import time
 
 from train import ModelTrainer
 import options
@@ -25,23 +26,27 @@ def train(model, train_set, test_set, opts):
 
     with open(opts.output_path("results.csv"), "w") as csv_file:
         fieldnames = opts.var_names()
-        fieldnames.extend(["final_test_loss", "final_test_acc"])
+        fieldnames.extend(["final_test_loss", "final_test_acc", "duration"])
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
         if opts.gridSearch:
             for config in opts.iter():
                 print("Testing {}".format(config))
+                start_time = time.time()
                 vis.show(lambda: trainer.trainModel(model, train_set, test_set, opts))
                 csv_dict = opts.values()
-                csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc})
+                end_time = time.time()
+                csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc, "duration": end_time - start_time})
                 writer.writerow(csv_dict)
                 csv_file.flush()
 
         else:
+            start_time = time.time()
             vis.show(lambda: trainer.trainModel(model, train_set, test_set, opts))
+            end_time = time.time()
             csv_dict = opts.values()
-            csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc})
+            csv_dict.update({"final_test_loss": trainer.final_test_loss, "final_test_acc": trainer.final_test_acc, "duration": end_time - start_time})
             writer.writerow(csv_dict)
 
 
