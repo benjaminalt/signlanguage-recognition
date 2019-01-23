@@ -93,7 +93,13 @@ def main(args):
     test_set  = SignMNISTDataset(opts, test_path)
 
     # Load a neural net model (different models are available in the sub-folder "nets")
-    model = CNNs.CNN_5(opts)
+    # Good choices:
+    # CNN_3, dropout=0.90-0.95
+    # CNN_5, dropout=0.95
+    # CNN_12, dropout=0.95
+    # CNN_13, dropout=0.95 <- Simple architecture: 6 CNN layers, fixed channel numbers, was even able to achieve 100% accuracy during one test
+    # CNN_14, dropout=0.95
+    model = CNNs.CNN_13(opts)
 
     # Optionally load previously calculated weights
     if args.weights is not None and os.path.isfile(args.weights):
