@@ -127,13 +127,15 @@ def main(args):
         # Train model and save weights subsequently
         train_path = opts.data_path("sign_mnist_train.csv")
         test_path  = opts.data_path("sign_mnist_test.csv")
+        #test_path  = opts.data_path("custom_dataset.csv")
 
         # Random additional data augmentation:
         # Note: Using more augmentations might require slightly more epochs for best results
         train_transform = transforms.Compose([
+            #transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
             transforms.RandomResizedCrop(size=28, scale=(0.9, 1.0))#, # this works really well
             #transforms.RandomRotation(degrees=20)#,
-            #transforms.RandomHorizontalFlip(p=0.1) # this might require an increased number of epochs
+            #transforms.RandomHorizontalFlip(p=0.2) # this might require an increased number of epochs
         ])
 
         train_set = SignMNISTDataset(opts, train_path, transform=train_transform)

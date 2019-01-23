@@ -26,8 +26,9 @@ class SignMNISTDataset(Dataset):
             print("Loading data from " + options.root_relpath(npy_file) + " ...")
             data = np.load(npy_file)
 
-        self.labels = data[:, 0].astype(dtype="int64")
-        self.images = (1.0 * data[:, 1:] / 255).reshape((-1, 1, 28, 28))
+        self.labels = data[:, 0].astype(dtype="uint8")
+        #self.images = (1.0 * data[:, 1:] / 255).reshape((-1, 1, 28, 28))
+        self.images = data[:, 1:].astype(dtype="uint8").reshape((-1, 1, 28, 28))
         self.transform = transform
 
     def __len__(self):
@@ -43,5 +44,6 @@ class SignMNISTDataset(Dataset):
             imgp2 = self.transform(imgp) # apply transform
             imgn2 = np.array(imgp2) # PIL to numpy
             image = imgn2.reshape((1, 28, 28)) # reshape back for net
+        image = (1.0 * image  / 255) # to floating point
         sample = {'label': label, 'image': image}
         return sample
