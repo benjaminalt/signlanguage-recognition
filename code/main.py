@@ -13,6 +13,7 @@ from datasets.SignMNISTDataset import SignMNISTDataset
 from nets import *
 from visualizer.Visualizer import Visualizer
 from visualizer.GradCamVisualizer import GradCamVisualizer
+from visualizer.ConvolutionVisualizer import ConvolutionVisualizer
 
 
 def train(model, train_set, test_set, opts):
@@ -69,14 +70,21 @@ def visualize(model, data_filepath, opts):
     """
 
     test_set = SignMNISTDataset(opts, data_filepath)
-    print("Generating GradCAM visualization...")
-    visualizer = GradCamVisualizer(opts)
-    for idx, sample in enumerate(test_set):
-        output_dir = os.path.join(opts.output_path("gradcam"), str(idx))
-        os.makedirs(output_dir)
-        for n_layer in range(6):
-            visualizer.visualize(model, n_layer, sample["image"], sample["label"], output_dir, "gradcam_{}".format(n_layer))
-    print("Done.")
+    # print("Generating GradCAM visualization...")
+    # visualizer = GradCamVisualizer(opts)
+    # for idx, sample in enumerate(test_set):
+    #     output_dir = os.path.join(opts.output_path("gradcam"), str(idx))
+    #     os.makedirs(output_dir)
+    #     for n_layer in range(6):
+    #         visualizer.visualize(model, n_layer, sample["image"], sample["label"], output_dir, "gradcam_{}".format(n_layer))
+    # print("Done.")
+    print("Visualizing filters...")
+    visualizer = ConvolutionVisualizer(opts)
+    output_dir = opts.output_path("filters")
+    os.makedirs(output_dir)
+    for n_layer in range(6):
+        visualizer.visualize(model, n_layer, output_dir)
+    
 
 def main(args):
     """
