@@ -1,0 +1,234 @@
+[2019-01-27 15:43:03] Generating model graph visualization at results\20190127-154303\model ...
+[2019-01-27 15:43:04] Using CUDA!
+[2019-01-27 15:43:05] Loading data from data\sign_mnist_train.npy ...
+[2019-01-27 15:43:05] Loading data from data\sign_mnist_test.npy ...
+[2019-01-27 15:43:05] Training model...
+[2019-01-27 15:43:05] ===== HYPERPARAMETERS =====
+[2019-01-27 15:43:05] batch_size= 128
+[2019-01-27 15:43:05] epochs= 20
+[2019-01-27 15:43:05] learning_rate= 0.001
+[2019-01-27 15:43:05] ==============================
+[2019-01-27 15:43:05] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:10] [Test] Test finished, loss: 3.2094, acc: 0.0343, time: 4.31s
+[2019-01-27 15:43:13] [Train] Epoch 1, 10% 	 loss: 3.2171, acc: 0.0469, time: 3.30s
+[2019-01-27 15:43:13] [Train] Epoch 1, 20% 	 loss: 3.1326, acc: 0.0781, time: 0.16s
+[2019-01-27 15:43:13] [Train] Epoch 1, 30% 	 loss: 2.9533, acc: 0.1328, time: 0.16s
+[2019-01-27 15:43:13] [Train] Epoch 1, 40% 	 loss: 2.5654, acc: 0.2109, time: 0.15s
+[2019-01-27 15:43:13] [Train] Epoch 1, 51% 	 loss: 2.2167, acc: 0.2734, time: 0.17s
+[2019-01-27 15:43:14] [Train] Epoch 1, 61% 	 loss: 1.9968, acc: 0.3750, time: 0.16s
+[2019-01-27 15:43:14] [Train] Epoch 1, 71% 	 loss: 1.7396, acc: 0.4688, time: 0.16s
+[2019-01-27 15:43:14] [Train] Epoch 1, 81% 	 loss: 1.5089, acc: 0.5078, time: 0.15s
+[2019-01-27 15:43:14] [Train] Epoch 1, 92% 	 loss: 1.3828, acc: 0.5625, time: 0.15s
+[2019-01-27 15:43:14] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:18] [Test] Test finished, loss: 1.5196, acc: 0.5093, time: 3.37s
+[2019-01-27 15:43:21] [Train] Epoch 2, 10% 	 loss: 1.4543, acc: 0.5234, time: 3.23s
+[2019-01-27 15:43:21] [Train] Epoch 2, 20% 	 loss: 1.3033, acc: 0.5547, time: 0.16s
+[2019-01-27 15:43:21] [Train] Epoch 2, 30% 	 loss: 1.1434, acc: 0.6094, time: 0.16s
+[2019-01-27 15:43:21] [Train] Epoch 2, 40% 	 loss: 0.9366, acc: 0.6641, time: 0.16s
+[2019-01-27 15:43:22] [Train] Epoch 2, 51% 	 loss: 0.9424, acc: 0.6328, time: 0.17s
+[2019-01-27 15:43:22] [Train] Epoch 2, 61% 	 loss: 1.0130, acc: 0.6484, time: 0.16s
+[2019-01-27 15:43:22] [Train] Epoch 2, 71% 	 loss: 0.9990, acc: 0.6875, time: 0.16s
+[2019-01-27 15:43:22] [Train] Epoch 2, 81% 	 loss: 0.8266, acc: 0.7500, time: 0.16s
+[2019-01-27 15:43:22] [Train] Epoch 2, 92% 	 loss: 0.7551, acc: 0.6875, time: 0.15s
+[2019-01-27 15:43:23] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:26] [Test] Test finished, loss: 0.8823, acc: 0.7020, time: 3.38s
+[2019-01-27 15:43:29] [Train] Epoch 3, 10% 	 loss: 0.7662, acc: 0.7344, time: 3.23s
+[2019-01-27 15:43:29] [Train] Epoch 3, 20% 	 loss: 0.6457, acc: 0.7812, time: 0.16s
+[2019-01-27 15:43:29] [Train] Epoch 3, 30% 	 loss: 0.6051, acc: 0.7891, time: 0.15s
+[2019-01-27 15:43:30] [Train] Epoch 3, 40% 	 loss: 0.5626, acc: 0.8281, time: 0.17s
+[2019-01-27 15:43:30] [Train] Epoch 3, 51% 	 loss: 0.4651, acc: 0.8594, time: 0.16s
+[2019-01-27 15:43:30] [Train] Epoch 3, 61% 	 loss: 0.6501, acc: 0.7422, time: 0.17s
+[2019-01-27 15:43:30] [Train] Epoch 3, 71% 	 loss: 0.4321, acc: 0.8594, time: 0.16s
+[2019-01-27 15:43:30] [Train] Epoch 3, 81% 	 loss: 0.5830, acc: 0.8125, time: 0.16s
+[2019-01-27 15:43:30] [Train] Epoch 3, 92% 	 loss: 0.4097, acc: 0.8750, time: 0.16s
+[2019-01-27 15:43:31] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:34] [Test] Test finished, loss: 0.6343, acc: 0.7829, time: 3.39s
+[2019-01-27 15:43:37] [Train] Epoch 4, 10% 	 loss: 0.5967, acc: 0.7969, time: 3.26s
+[2019-01-27 15:43:38] [Train] Epoch 4, 20% 	 loss: 0.3997, acc: 0.8516, time: 0.18s
+[2019-01-27 15:43:38] [Train] Epoch 4, 30% 	 loss: 0.4792, acc: 0.8281, time: 0.17s
+[2019-01-27 15:43:38] [Train] Epoch 4, 40% 	 loss: 0.4159, acc: 0.8672, time: 0.16s
+[2019-01-27 15:43:38] [Train] Epoch 4, 51% 	 loss: 0.4175, acc: 0.8750, time: 0.19s
+[2019-01-27 15:43:38] [Train] Epoch 4, 61% 	 loss: 0.2994, acc: 0.8750, time: 0.17s
+[2019-01-27 15:43:39] [Train] Epoch 4, 71% 	 loss: 0.3015, acc: 0.9062, time: 0.17s
+[2019-01-27 15:43:39] [Train] Epoch 4, 81% 	 loss: 0.3054, acc: 0.8984, time: 0.16s
+[2019-01-27 15:43:39] [Train] Epoch 4, 92% 	 loss: 0.3096, acc: 0.8672, time: 0.16s
+[2019-01-27 15:43:39] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:43] [Test] Test finished, loss: 0.5570, acc: 0.7946, time: 3.47s
+[2019-01-27 15:43:46] [Train] Epoch 5, 10% 	 loss: 0.3363, acc: 0.8750, time: 3.33s
+[2019-01-27 15:43:46] [Train] Epoch 5, 20% 	 loss: 0.3534, acc: 0.8906, time: 0.17s
+[2019-01-27 15:43:46] [Train] Epoch 5, 30% 	 loss: 0.3307, acc: 0.9297, time: 0.17s
+[2019-01-27 15:43:46] [Train] Epoch 5, 40% 	 loss: 0.3309, acc: 0.8906, time: 0.19s
+[2019-01-27 15:43:47] [Train] Epoch 5, 51% 	 loss: 0.2687, acc: 0.8984, time: 0.17s
+[2019-01-27 15:43:47] [Train] Epoch 5, 61% 	 loss: 0.2741, acc: 0.9141, time: 0.17s
+[2019-01-27 15:43:47] [Train] Epoch 5, 71% 	 loss: 0.2678, acc: 0.8906, time: 0.18s
+[2019-01-27 15:43:47] [Train] Epoch 5, 81% 	 loss: 0.1644, acc: 0.9297, time: 0.17s
+[2019-01-27 15:43:47] [Train] Epoch 5, 92% 	 loss: 0.2529, acc: 0.8984, time: 0.18s
+[2019-01-27 15:43:48] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:51] [Test] Test finished, loss: 0.4530, acc: 0.8328, time: 3.46s
+[2019-01-27 15:43:54] [Train] Epoch 6, 10% 	 loss: 0.2326, acc: 0.9141, time: 3.25s
+[2019-01-27 15:43:55] [Train] Epoch 6, 20% 	 loss: 0.2049, acc: 0.9375, time: 0.16s
+[2019-01-27 15:43:55] [Train] Epoch 6, 30% 	 loss: 0.2365, acc: 0.9219, time: 0.15s
+[2019-01-27 15:43:55] [Train] Epoch 6, 40% 	 loss: 0.1739, acc: 0.9375, time: 0.16s
+[2019-01-27 15:43:55] [Train] Epoch 6, 51% 	 loss: 0.1960, acc: 0.9141, time: 0.16s
+[2019-01-27 15:43:55] [Train] Epoch 6, 61% 	 loss: 0.1338, acc: 0.9531, time: 0.17s
+[2019-01-27 15:43:55] [Train] Epoch 6, 71% 	 loss: 0.1318, acc: 0.9453, time: 0.15s
+[2019-01-27 15:43:56] [Train] Epoch 6, 81% 	 loss: 0.1603, acc: 0.9375, time: 0.16s
+[2019-01-27 15:43:56] [Train] Epoch 6, 92% 	 loss: 0.1592, acc: 0.9688, time: 0.16s
+[2019-01-27 15:43:56] [Test] Beginning with test with 57 batches
+[2019-01-27 15:43:59] [Test] Test finished, loss: 0.3968, acc: 0.8610, time: 3.42s
+[2019-01-27 15:44:03] [Train] Epoch 7, 10% 	 loss: 0.1635, acc: 0.9375, time: 3.30s
+[2019-01-27 15:44:03] [Train] Epoch 7, 20% 	 loss: 0.1088, acc: 0.9766, time: 0.17s
+[2019-01-27 15:44:03] [Train] Epoch 7, 30% 	 loss: 0.2513, acc: 0.9453, time: 0.15s
+[2019-01-27 15:44:03] [Train] Epoch 7, 40% 	 loss: 0.1127, acc: 0.9688, time: 0.15s
+[2019-01-27 15:44:03] [Train] Epoch 7, 51% 	 loss: 0.1238, acc: 0.9297, time: 0.15s
+[2019-01-27 15:44:04] [Train] Epoch 7, 61% 	 loss: 0.1950, acc: 0.9375, time: 0.16s
+[2019-01-27 15:44:04] [Train] Epoch 7, 71% 	 loss: 0.1322, acc: 0.9609, time: 0.17s
+[2019-01-27 15:44:04] [Train] Epoch 7, 81% 	 loss: 0.1253, acc: 0.9531, time: 0.16s
+[2019-01-27 15:44:04] [Train] Epoch 7, 92% 	 loss: 0.0976, acc: 0.9688, time: 0.16s
+[2019-01-27 15:44:04] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:08] [Test] Test finished, loss: 0.3125, acc: 0.8917, time: 3.38s
+[2019-01-27 15:44:11] [Train] Epoch 8, 10% 	 loss: 0.1527, acc: 0.9453, time: 3.27s
+[2019-01-27 15:44:11] [Train] Epoch 8, 20% 	 loss: 0.1092, acc: 0.9688, time: 0.15s
+[2019-01-27 15:44:11] [Train] Epoch 8, 30% 	 loss: 0.2443, acc: 0.9531, time: 0.16s
+[2019-01-27 15:44:11] [Train] Epoch 8, 40% 	 loss: 0.1077, acc: 0.9609, time: 0.19s
+[2019-01-27 15:44:12] [Train] Epoch 8, 51% 	 loss: 0.1399, acc: 0.9609, time: 0.17s
+[2019-01-27 15:44:12] [Train] Epoch 8, 61% 	 loss: 0.0950, acc: 0.9609, time: 0.17s
+[2019-01-27 15:44:12] [Train] Epoch 8, 71% 	 loss: 0.0974, acc: 0.9609, time: 0.17s
+[2019-01-27 15:44:12] [Train] Epoch 8, 81% 	 loss: 0.0678, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:12] [Train] Epoch 8, 92% 	 loss: 0.2282, acc: 0.9219, time: 0.16s
+[2019-01-27 15:44:13] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:16] [Test] Test finished, loss: 0.2846, acc: 0.8992, time: 3.85s
+[2019-01-27 15:44:20] [Train] Epoch 9, 10% 	 loss: 0.1051, acc: 0.9688, time: 3.56s
+[2019-01-27 15:44:20] [Train] Epoch 9, 20% 	 loss: 0.0756, acc: 0.9688, time: 0.16s
+[2019-01-27 15:44:20] [Train] Epoch 9, 30% 	 loss: 0.0886, acc: 0.9844, time: 0.17s
+[2019-01-27 15:44:21] [Train] Epoch 9, 40% 	 loss: 0.0681, acc: 0.9766, time: 0.17s
+[2019-01-27 15:44:21] [Train] Epoch 9, 51% 	 loss: 0.0599, acc: 0.9766, time: 0.16s
+[2019-01-27 15:44:21] [Train] Epoch 9, 61% 	 loss: 0.0750, acc: 0.9844, time: 0.15s
+[2019-01-27 15:44:21] [Train] Epoch 9, 71% 	 loss: 0.1279, acc: 0.9531, time: 0.15s
+[2019-01-27 15:44:21] [Train] Epoch 9, 81% 	 loss: 0.1166, acc: 0.9688, time: 0.17s
+[2019-01-27 15:44:21] [Train] Epoch 9, 92% 	 loss: 0.0397, acc: 0.9922, time: 0.17s
+[2019-01-27 15:44:22] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:25] [Test] Test finished, loss: 0.2757, acc: 0.9050, time: 3.39s
+[2019-01-27 15:44:28] [Train] Epoch 10, 10% 	 loss: 0.0654, acc: 0.9766, time: 3.28s
+[2019-01-27 15:44:28] [Train] Epoch 10, 20% 	 loss: 0.0616, acc: 0.9766, time: 0.16s
+[2019-01-27 15:44:29] [Train] Epoch 10, 30% 	 loss: 0.1631, acc: 0.9531, time: 0.15s
+[2019-01-27 15:44:29] [Train] Epoch 10, 40% 	 loss: 0.0404, acc: 0.9922, time: 0.16s
+[2019-01-27 15:44:29] [Train] Epoch 10, 51% 	 loss: 0.1035, acc: 0.9531, time: 0.17s
+[2019-01-27 15:44:29] [Train] Epoch 10, 61% 	 loss: 0.0794, acc: 0.9766, time: 0.15s
+[2019-01-27 15:44:29] [Train] Epoch 10, 71% 	 loss: 0.0479, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:29] [Train] Epoch 10, 81% 	 loss: 0.0494, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:30] [Train] Epoch 10, 92% 	 loss: 0.0338, acc: 1.0000, time: 0.16s
+[2019-01-27 15:44:30] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:33] [Test] Test finished, loss: 0.2718, acc: 0.9141, time: 3.37s
+[2019-01-27 15:44:37] [Train] Epoch 11, 10% 	 loss: 0.1042, acc: 0.9609, time: 3.30s
+[2019-01-27 15:44:37] [Train] Epoch 11, 20% 	 loss: 0.0511, acc: 0.9844, time: 0.17s
+[2019-01-27 15:44:37] [Train] Epoch 11, 30% 	 loss: 0.1386, acc: 0.9844, time: 0.17s
+[2019-01-27 15:44:37] [Train] Epoch 11, 40% 	 loss: 0.0331, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:37] [Train] Epoch 11, 51% 	 loss: 0.0674, acc: 0.9922, time: 0.20s
+[2019-01-27 15:44:37] [Train] Epoch 11, 61% 	 loss: 0.0560, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:38] [Train] Epoch 11, 71% 	 loss: 0.0390, acc: 0.9922, time: 0.16s
+[2019-01-27 15:44:38] [Train] Epoch 11, 81% 	 loss: 0.0375, acc: 0.9844, time: 0.17s
+[2019-01-27 15:44:38] [Train] Epoch 11, 92% 	 loss: 0.1026, acc: 0.9688, time: 0.16s
+[2019-01-27 15:44:38] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:42] [Test] Test finished, loss: 0.2768, acc: 0.9209, time: 3.42s
+[2019-01-27 15:44:45] [Train] Epoch 12, 10% 	 loss: 0.0586, acc: 0.9844, time: 3.32s
+[2019-01-27 15:44:45] [Train] Epoch 12, 20% 	 loss: 0.0211, acc: 1.0000, time: 0.16s
+[2019-01-27 15:44:45] [Train] Epoch 12, 30% 	 loss: 0.0202, acc: 1.0000, time: 0.16s
+[2019-01-27 15:44:45] [Train] Epoch 12, 40% 	 loss: 0.0439, acc: 0.9844, time: 0.15s
+[2019-01-27 15:44:46] [Train] Epoch 12, 51% 	 loss: 0.0793, acc: 0.9766, time: 0.17s
+[2019-01-27 15:44:46] [Train] Epoch 12, 61% 	 loss: 0.0796, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:46] [Train] Epoch 12, 71% 	 loss: 0.1004, acc: 0.9609, time: 0.16s
+[2019-01-27 15:44:46] [Train] Epoch 12, 81% 	 loss: 0.0270, acc: 0.9922, time: 0.16s
+[2019-01-27 15:44:46] [Train] Epoch 12, 92% 	 loss: 0.1257, acc: 0.9531, time: 0.16s
+[2019-01-27 15:44:47] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:50] [Test] Test finished, loss: 0.2359, acc: 0.9282, time: 3.41s
+[2019-01-27 15:44:53] [Train] Epoch 13, 10% 	 loss: 0.0684, acc: 0.9688, time: 3.25s
+[2019-01-27 15:44:53] [Train] Epoch 13, 20% 	 loss: 0.0434, acc: 0.9844, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 30% 	 loss: 0.0364, acc: 0.9922, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 40% 	 loss: 0.0239, acc: 1.0000, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 51% 	 loss: 0.0288, acc: 0.9922, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 61% 	 loss: 0.0590, acc: 0.9688, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 71% 	 loss: 0.0444, acc: 0.9766, time: 0.16s
+[2019-01-27 15:44:54] [Train] Epoch 13, 81% 	 loss: 0.0484, acc: 0.9766, time: 0.15s
+[2019-01-27 15:44:54] [Train] Epoch 13, 92% 	 loss: 0.0295, acc: 0.9922, time: 0.17s
+[2019-01-27 15:44:55] [Test] Beginning with test with 57 batches
+[2019-01-27 15:44:58] [Test] Test finished, loss: 0.2082, acc: 0.9328, time: 3.37s
+[2019-01-27 15:45:01] [Train] Epoch 14, 10% 	 loss: 0.0232, acc: 0.9922, time: 3.26s
+[2019-01-27 15:45:02] [Train] Epoch 14, 20% 	 loss: 0.0104, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:02] [Train] Epoch 14, 30% 	 loss: 0.0329, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:02] [Train] Epoch 14, 40% 	 loss: 0.0092, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:02] [Train] Epoch 14, 51% 	 loss: 0.0249, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:02] [Train] Epoch 14, 61% 	 loss: 0.0614, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:02] [Train] Epoch 14, 71% 	 loss: 0.0350, acc: 0.9844, time: 0.15s
+[2019-01-27 15:45:03] [Train] Epoch 14, 81% 	 loss: 0.0197, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:03] [Train] Epoch 14, 92% 	 loss: 0.0453, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:03] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:06] [Test] Test finished, loss: 0.3067, acc: 0.9056, time: 3.36s
+[2019-01-27 15:45:10] [Train] Epoch 15, 10% 	 loss: 0.0144, acc: 1.0000, time: 3.26s
+[2019-01-27 15:45:10] [Train] Epoch 15, 20% 	 loss: 0.0228, acc: 0.9922, time: 0.17s
+[2019-01-27 15:45:10] [Train] Epoch 15, 30% 	 loss: 0.0081, acc: 1.0000, time: 0.19s
+[2019-01-27 15:45:10] [Train] Epoch 15, 40% 	 loss: 0.0730, acc: 0.9766, time: 0.18s
+[2019-01-27 15:45:10] [Train] Epoch 15, 51% 	 loss: 0.0632, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:10] [Train] Epoch 15, 61% 	 loss: 0.0801, acc: 0.9766, time: 0.17s
+[2019-01-27 15:45:11] [Train] Epoch 15, 71% 	 loss: 0.0783, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:11] [Train] Epoch 15, 81% 	 loss: 0.0333, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:11] [Train] Epoch 15, 92% 	 loss: 0.0140, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:11] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:15] [Test] Test finished, loss: 0.2274, acc: 0.9304, time: 3.44s
+[2019-01-27 15:45:18] [Train] Epoch 16, 10% 	 loss: 0.0804, acc: 0.9922, time: 3.29s
+[2019-01-27 15:45:18] [Train] Epoch 16, 20% 	 loss: 0.0350, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:18] [Train] Epoch 16, 30% 	 loss: 0.0281, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:18] [Train] Epoch 16, 40% 	 loss: 0.0562, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:19] [Train] Epoch 16, 51% 	 loss: 0.0289, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:19] [Train] Epoch 16, 61% 	 loss: 0.0634, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:19] [Train] Epoch 16, 71% 	 loss: 0.0091, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:19] [Train] Epoch 16, 81% 	 loss: 0.0143, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:19] [Train] Epoch 16, 92% 	 loss: 0.0224, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:20] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:23] [Test] Test finished, loss: 0.2277, acc: 0.9342, time: 3.40s
+[2019-01-27 15:45:26] [Train] Epoch 17, 10% 	 loss: 0.0067, acc: 1.0000, time: 3.28s
+[2019-01-27 15:45:26] [Train] Epoch 17, 20% 	 loss: 0.0664, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:27] [Train] Epoch 17, 30% 	 loss: 0.0397, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:27] [Train] Epoch 17, 40% 	 loss: 0.0448, acc: 0.9922, time: 0.17s
+[2019-01-27 15:45:27] [Train] Epoch 17, 51% 	 loss: 0.0179, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:27] [Train] Epoch 17, 61% 	 loss: 0.0170, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:27] [Train] Epoch 17, 71% 	 loss: 0.0117, acc: 1.0000, time: 0.18s
+[2019-01-27 15:45:27] [Train] Epoch 17, 81% 	 loss: 0.0342, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:28] [Train] Epoch 17, 92% 	 loss: 0.0093, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:28] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:31] [Test] Test finished, loss: 0.2006, acc: 0.9334, time: 3.40s
+[2019-01-27 15:45:35] [Train] Epoch 18, 10% 	 loss: 0.0530, acc: 0.9844, time: 3.25s
+[2019-01-27 15:45:35] [Train] Epoch 18, 20% 	 loss: 0.0282, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:35] [Train] Epoch 18, 30% 	 loss: 0.0179, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:35] [Train] Epoch 18, 40% 	 loss: 0.0749, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:35] [Train] Epoch 18, 51% 	 loss: 0.0272, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:35] [Train] Epoch 18, 61% 	 loss: 0.0404, acc: 0.9766, time: 0.15s
+[2019-01-27 15:45:35] [Train] Epoch 18, 71% 	 loss: 0.0397, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:36] [Train] Epoch 18, 81% 	 loss: 0.0269, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:36] [Train] Epoch 18, 92% 	 loss: 0.0400, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:36] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:39] [Test] Test finished, loss: 0.2361, acc: 0.9324, time: 3.38s
+[2019-01-27 15:45:43] [Train] Epoch 19, 10% 	 loss: 0.0522, acc: 0.9766, time: 3.30s
+[2019-01-27 15:45:43] [Train] Epoch 19, 20% 	 loss: 0.0171, acc: 0.9922, time: 0.17s
+[2019-01-27 15:45:43] [Train] Epoch 19, 30% 	 loss: 0.0560, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:43] [Train] Epoch 19, 40% 	 loss: 0.0057, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:43] [Train] Epoch 19, 51% 	 loss: 0.0769, acc: 0.9844, time: 0.17s
+[2019-01-27 15:45:44] [Train] Epoch 19, 61% 	 loss: 0.0092, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:44] [Train] Epoch 19, 71% 	 loss: 0.0035, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:44] [Train] Epoch 19, 81% 	 loss: 0.0370, acc: 0.9922, time: 0.16s
+[2019-01-27 15:45:44] [Train] Epoch 19, 92% 	 loss: 0.0040, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:44] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:48] [Test] Test finished, loss: 0.2639, acc: 0.9279, time: 3.38s
+[2019-01-27 15:45:51] [Train] Epoch 20, 10% 	 loss: 0.0195, acc: 0.9922, time: 3.24s
+[2019-01-27 15:45:51] [Train] Epoch 20, 20% 	 loss: 0.0092, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:51] [Train] Epoch 20, 30% 	 loss: 0.0436, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:51] [Train] Epoch 20, 40% 	 loss: 0.0117, acc: 1.0000, time: 0.16s
+[2019-01-27 15:45:52] [Train] Epoch 20, 51% 	 loss: 0.0300, acc: 0.9922, time: 0.15s
+[2019-01-27 15:45:52] [Train] Epoch 20, 61% 	 loss: 0.0502, acc: 0.9844, time: 0.16s
+[2019-01-27 15:45:52] [Train] Epoch 20, 71% 	 loss: 0.0431, acc: 0.9688, time: 0.16s
+[2019-01-27 15:45:52] [Train] Epoch 20, 81% 	 loss: 0.0160, acc: 1.0000, time: 0.15s
+[2019-01-27 15:45:52] [Train] Epoch 20, 92% 	 loss: 0.0540, acc: 0.9766, time: 0.16s
+[2019-01-27 15:45:53] [Test] Beginning with test with 57 batches
+[2019-01-27 15:45:56] [Test] Test finished, loss: 0.1745, acc: 0.9465, time: 3.37s
+[2019-01-27 15:45:56] Training finished, took 170.71s
+[2019-01-27 15:46:11] Saving model weights at results\20190127-154303\weights.pt ...

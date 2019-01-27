@@ -1,0 +1,2 @@
+gridSearch,interactiveGUI,use_cuda,batch_size,n_epochs,learning_rate,weight_decay,shuffleTestData,shuffleTrainData,dropout_probability_1,dropout_probability_2,dropout_probability_3,use_batchnorm,final_test_loss,final_test_acc,duration
+False,False,True,128,20,0.001,0.0001,False,True,0.0,0.0,0.0,False,0.17451853893305125,0.9464584495259342,185.3677351474762
