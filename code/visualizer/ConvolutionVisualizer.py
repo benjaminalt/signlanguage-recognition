@@ -8,6 +8,7 @@ class ConvolutionVisualizer(object):
     def __init__(self, options):
         self.options = options
     
-    def visualize(self, model, selected_layer, output_dir):
-        viz = cnn_layer_visualization.CNNLayerVisualization(model.features, selected_layer, 0)
+    def visualize(self, model, selected_layer, selected_filter, output_dir):
+        viz = cnn_layer_visualization.CNNLayerVisualization(model.features, selected_layer, selected_filter)
         viz.visualise_layer_with_hooks(output_dir) 
+        return viz.created_image

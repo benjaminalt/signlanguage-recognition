@@ -4,6 +4,8 @@ import hiddenlayer as hl
 import csv
 import argparse
 import time
+from PIL import Image
+import numpy as np
 
 from train import ModelTrainer
 import options
@@ -64,12 +66,21 @@ def test(model, data_filepath, opts):
     print("Loss: {}".format(loss))
     print("Accuracy: {}".format(acc))
 
+def grid_layout(images, n_rows):
+    n_index, height, width, intensity = images.shape
+    print(images.shape)
+    n_cols = int(n_index / n_rows)
+    print(n_cols)
+    grid = (images.reshape(n_rows, n_cols, height, width, intensity)
+            .swapaxes(1,2)
+            .reshape(height*n_rows, width*n_cols))
+    return grid
+    
 
 def visualize(model, data_filepath, opts):
     """
     Generate and store various visualizations for a given model
     """
-
     test_set = SignMNISTDataset(opts, data_filepath)
     # print("Generating GradCAM visualization...")
     # visualizer = GradCamVisualizer(opts)
@@ -83,9 +94,17 @@ def visualize(model, data_filepath, opts):
     visualizer = ConvolutionVisualizer(opts)
     output_dir = opts.output_path("filters")
     os.makedirs(output_dir)
+    created_images = []
     for n_layer in range(6):
-        visualizer.visualize(model, n_layer, output_dir)
-    
+        for n_filter in range(6):
+            created_images.append(visualizer.visualize(model, n_layer, n_filter, output_dir))
+    layouted_image = Image.fromarray(grid_layout(np.array(created_images), 6).astype(np.uint8))
+    basewidth = 500
+    wpercent = (basewidth/float(layouted_image.size[0]))
+    hsize = int((float(layouted_image.size[1])*float(wpercent)))
+    layouted_image = layouted_image.resize((basewidth,hsize), Image.ANTIALIAS)
+    layouted_image.save(os.path.join(opts.output_path("filters"), "grid.png"))
+
 
 def main(args):
     """
