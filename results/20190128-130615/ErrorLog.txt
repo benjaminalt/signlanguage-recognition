@@ -1,0 +1,4 @@
+[2019-01-28 13:06:15] /home/felix/Data/Studium/PraktikumNeuronaleNetze/signlanguage-recognition/venv/lib/python3.7/site-packages/torch/nn/modules/module.py:487: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  result = self._slow_forward(*input, **kwargs)
+[2019-01-28 13:06:16] /media/felix/Data/Studium/PraktikumNeuronaleNetze/signlanguage-recognition/code/nets/SimpleCNN.py:25: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  output = self.relu3(output)
