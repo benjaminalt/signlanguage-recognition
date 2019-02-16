@@ -1,13 +1,18 @@
 \documentclass[a4paper]{article}
 \usepackage{iwslt15,amssymb,amsmath,epsfig}
+\usepackage{csquotes}
+\usepackage{algorithm}
+\usepackage{listings}
+\lstset{
+     breaklines=true,
+     basicstyle=\ttfamily
+}
+
 \setcounter{page}{1}
 \sloppy		% better line breaks
 %\ninept
-%SM below a registered trademark definition
-\def\reg{{\rm\ooalign{\hfil
-     \raise.07ex\hbox{\scriptsize R}\hfil\crcr\mathhexbox20D}}}
 
-%% \newcommand{\reg}{\textsuperscript{\textcircled{\textsc r}}}
+\newcommand{\ts}{\textsuperscript}
 
 \title{Hand Gesture Recognition with Convolutional Neural Networks}
 
@@ -46,10 +51,65 @@ TODO
 TODO
 
 \section{Evaluation}
-TODO
+\subsection{Validation on custom dataset}
+\begin{figure}[t]
+     \centering
+     \begin{tabular}{ccc}
+          \includegraphics[width=.25\linewidth]{graphics/custom_dataset/orig0}&\includegraphics[width=.25\linewidth]{graphics/custom_dataset/orig1}&\includegraphics[width=.25\linewidth]{graphics/custom_dataset/orig2} \\
+          \includegraphics[width=.25\linewidth]{graphics/custom_dataset/custom0}&\includegraphics[width=.25\linewidth]{graphics/custom_dataset/custom1}&\includegraphics[width=.25\linewidth]{graphics/custom_dataset/custom2}
+     \end{tabular}
+     \caption{\textit{Exemplary images from original (top row) and custom (bottom row) datasets.}}
+     \label{fig:custom_dataset} 
+\end{figure}
+To determine the trained model's capacity to generalize to real-world examples beyond those of the provided test set, we created a small custom dataset of 60 images of sign language gestures made by our own hands in front of a white background. To keep the scenario as realistic as possible, preprocessing of the images was constrained to grayscale conversion, cropping and rescaling to the expected size of 28x28 pixels. Three of the images in the custom dataset, together with corresponding images from the provided test set, are shown in figure \ref{fig:custom_dataset}. Despite its capability of correctly classifying every image in the provided test set, the model failed to correctly classify a single image from the custom dataset. The poor performance of the classifier on real-world data indicates that the model did not learn salient features for classifying ASL hand gestures in general, but instead learned features only relevant to these particular training and test sets. To test this hypothesis, we we chose to generate human-interpretable visual representations of the learned features. In the literature, several approaches for visualizing the features learned by neural networks in general and convolutional neural networks in particular have been proposed [TODO: CITATION]. PyTorch implementations of multiple neural network visualization algorithms are provided in the repository \textit{pytorch-cnn-visualizations} [TODO: CITATION], from which we used and slightly adapted the visualization of convolutional filters described in section \ref{sec:filter_visualization} as well as the gradient class-activation mapping (GradCAM) shown in section \ref{sec:gradcam}.
+
+\subsection{Visualization of filters}
+\label{sec:filter_visualization}
+\begin{figure}[t]
+     \centering
+     \includegraphics[width=.9\linewidth]{graphics/filters}
+     \caption{\textit{Visualization of learned filters for the six convolutional layers of the final model. Only a subset of all layers of each filter is shown.}}
+     \label{fig:filters}
+\end{figure}
+A common visualization technique for understanding the features learned by a convolutional neural network is to display the weights in the filters of the convolutional layers [TODO: CITATION]. Filters at the first layers tend to be easily interpretable, usually as pattern or edge detectors, while the filters of deeper layers become less interpretable. A different approach is to visualize the optimal input image with respect to a given convolution. This way, we do not visualize the weights, but rather the \enquote{archetypical feature} which maximizes the output of a given filter. Algorithm \ref{alg:filter_visualization} shows a PyTorch-based implementation of the optimization-based filter visualization.
+
+\begin{algorithm}
+     \caption{Convolution Input Optimization}\label{alg:filter_visualization}
+     \begin{lstlisting}[language=Python]
+hook_pytorch_layer(model)
+x = random_tensor(shape=(224, 224, 3))
+optimizer = torch.optim.Adam([x])
+for i in range(30):
+  optimizer.zero_grad()
+  for j, layer in enumerate(model):
+    x = layer(x) # forward pass
+    if j == selected_layer:
+      break # forward hook function has been triggered
+    loss = -torch.mean(conv_output)
+    loss.backward()
+    optimizer.step()
+     \end{lstlisting}
+\end{algorithm}
+
+A PyTorch layer hook function is registered to save the output (here: \texttt{conv\_output}) of the convolution with a specified filter at a specified layer (here: \texttt{selected\_layer}). An \texttt{Adam} optimizer [CITATION] is initialized for a random image. In each of a total of 30 iterations, the optimizer's gradients are reset and the current version of the input image is forward-propagated through the network up to the specified layer, at which point the registered hook function stores the convolution output in \texttt{conv\_output}. The loss (the negative mean of \texttt{conv\_output}) is then backpropagated through the network and the image is updated by the optimizer.\\
+The resulting images are shown in figure \ref{fig:filters}.
+
+\subsection{GradCAM visualization}
+\label{sec:gradcam}
+\begin{figure}[t]
+     \centering
+     \begin{tabular}{ccc}
+          \includegraphics[width=.25\linewidth]{graphics/gradcam/layer1/0_original}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer1/0_map}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer1/0_overlaid} \\
+          \includegraphics[width=.25\linewidth]{graphics/gradcam/layer3/0_original}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer3/0_map}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer3/0_overlaid} \\
+          \includegraphics[width=.25\linewidth]{graphics/gradcam/layer6/1_original}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer6/1_map}&\includegraphics[width=.25\linewidth]{graphics/gradcam/layer6/1_overlaid} \\
+          \textit{(a) Original} & \textit{(b) GradCAM} & \textit{(c) Overlaid}
+     \end{tabular}
+     \caption{\textit{GradCAM visualization of learned features for convolutional layers 1, 3 and 6 (1\ts{st}, 2\ts{nd} and 3\ts{rd} row respectively). The visualizations in column (c) are produced by overlaying the original image (a) with its GradCAM (b).}}
+     \label{fig:gradcam}
+\end{figure}
 
 \section{Conclusion and outlook}
-TODO
+\subsection{Further work}
 
 % \bibliographystyle{IEEEtran}
 % \begin{thebibliography}{10}
