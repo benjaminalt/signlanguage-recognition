@@ -68,7 +68,7 @@ To determine the trained model's capacity to generalize to real-world examples b
 \begin{figure}[t]
      \centering
      \includegraphics[width=.9\linewidth]{graphics/filters}
-     \caption{\textit{Visualization of learned filters for the six convolutional layers of the final model. Only a subset of all layers of each filter is shown.}}
+     \caption{\textit{Input images optimizing convolution outputs for the filters of the six convolutional layers of the final model. Only a subset of all layers of each filter is shown.}}
      \label{fig:filters}
 \end{figure}
 A common visualization technique for understanding the features learned by a convolutional neural network is to display the weights in the filters of the convolutional layers [TODO: CITATION]. Filters at the first layers tend to be easily interpretable, usually as pattern or edge detectors, while the filters of deeper layers become less interpretable. A different approach is to visualize the optimal input image with respect to a given convolution. This way, we do not visualize the weights, but rather the \enquote{archetypical feature} which maximizes the output of a given filter. Algorithm \ref{alg:filter_visualization} shows a PyTorch-based implementation of the optimization-based filter visualization.
@@ -92,7 +92,7 @@ for i in range(30):
 \end{algorithm}
 
 A PyTorch layer hook function is registered to save the output (here: \texttt{conv\_output}) of the convolution with a specified filter at a specified layer (here: \texttt{selected\_layer}). An \texttt{Adam} optimizer [CITATION] is initialized for a random image. In each of a total of 30 iterations, the optimizer's gradients are reset and the current version of the input image is forward-propagated through the network up to the specified layer, at which point the registered hook function stores the convolution output in \texttt{conv\_output}. The loss (the negative mean of \texttt{conv\_output}) is then backpropagated through the network and the image is updated by the optimizer.\\
-The resulting images are shown in figure \ref{fig:filters}.
+A subset of the resulting images are shown in figure \ref{fig:filters}. In the first layers, the outputs of the convolutions are maximized for high-frequency inputs with different primary orientations. Filters in deeper layers respond more strongly to lower-frequency patterns. This indicates that filters in deeper layers respond more strongly to larger features of the image, indicating that the network has learned to extract features beyond the high-frequency noise characteristics of the training set.
 
 \subsection{GradCAM visualization}
 \label{sec:gradcam}
@@ -107,6 +107,19 @@ The resulting images are shown in figure \ref{fig:filters}.
      \caption{\textit{GradCAM visualization of learned features for convolutional layers 1, 3 and 6 (1\ts{st}, 2\ts{nd} and 3\ts{rd} row respectively). The visualizations in column (c) are produced by overlaying the original image (a) with its GradCAM (b).}}
      \label{fig:gradcam}
 \end{figure}
+While the visualizations of optimal convolution inputs of section \ref{sec:filter_visualization} indicate that the network learned something other than noise, it does not give any indication whether the learned features are meaningful in the context of hand gesture recognition. To that end, we used the gradient class-activation mapping (GradCAM) algorithm which generates a heat map indicating the importance of every pixel in the classification of an image. Unlike the generic visualization of optimal convolution inputs above, GradCAM is \textit{class-discriminative}: It visualizes how much a each pixel contributed to the model's decision to classify an image into a particular class. Consequently, for an image of the gesture for the letter \enquote{A}, we expect the gradient class-activation map to highlight different regions of the hand than for an image of the gesture for the letter \enquote{V}, because different parts of the hand carry the salient information: The \enquote{A-ness} of an image of a hand is mainly captured by the four parallel fingers curled into a fist, while the \enquote{V-ness} of an image of a hand is mainly determined by the positions of the tips of the index and middle fingers.\\
+\begin{algorithm}
+     \caption{Gradient Class-Activation Mapping}
+     \label{alg:gradcam}
+     \begin{enumerate}
+          \item Compute the gradient $\frac{\partial y^c}{\partial A^k}$ of the class score $y^c$ for class $c$ with respect to the feature maps $A^k$ of the given convolutional layer
+          \item Compute the \textit{neuron importance weights}\\ $\alpha^c_k = \frac{1}{Z} \sum_i \sum_j \frac{\partial y^c}{\partial A^k_{ij}}$
+          \item Compute the class-discriminative localization map\\
+          $L^c_{GradCAM} = ReLU(\sum_k \alpha_k^c A^k)$
+     \end{enumerate}
+\end{algorithm}
+Algorithm \ref{alg:gradcam} summarizes the GradCAM algorithm. Note that the neuron importance weights $\alpha_k^c$ are the result of global average pooling of the gradients and encode the importance of feature map $A^k$ for the decision for class $c$. $Z = i*j$ denotes the size of the feature map. The ReLU activation of the weighted sum in the third step is required to only keep pixels whose intensity should be \textit{increased} to increase $y^c$.\\
+Exemplary results of computing the gradient class-activation maps for images from the test dataset are shown in figure \ref{fig:gradcam}. It is noteworthy that the size of the considered regions increases with the depth of the layers. In layers 3 and 6, the salient features (the fingertips for the \textit{V}, the orientation of the fingers for the \textit{H}) are captured. The first row of figure \ref{fig:gradcam} shows that in the first layer, edges are primarily considered, which is expected. However, only dark edges on the right side of the fingers are highlighted. This indicates that the network at least partially learned to consider the lighting characteristics of the image in the first layers, which is problematic because the hands in the images of the provided training and test sets are illuminated exclusively from the left. Real-world examples such as our custom dataset will not necessarily share these lighting characteristics. This supports our hypothesis that the uniformity of the training and test sets prevents the model from generalizing well to real-world examples.
 
 \section{Conclusion and outlook}
 \subsection{Further work}
