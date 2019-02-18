@@ -1,0 +1,68 @@
+@article{Selvaraju2016,
+abstract = {We propose a technique for producing "visual explanations" for decisions from a large class of CNN-based models, making them more transparent. Our approach - Gradient-weighted Class Activation Mapping (Grad-CAM), uses the gradients of any target concept, flowing into the final convolutional layer to produce a coarse localization map highlighting the important regions in the image for predicting the concept. Unlike previous approaches, GradCAM is applicable to a wide variety of CNN model-families: (1) CNNs with fully-connected layers (e.g. VGG), (2) CNNs used for structured outputs (e.g. captioning), (3) CNNs used in tasks with multimodal inputs (e.g. VQA) or reinforcement learning, without any architectural changes or re-training. We combine GradCAM with fine-grained visualizations to create a high-resolution class-discriminative visualization and apply it to off-the-shelf image classification, captioning, and visual question answering (VQA) models, including ResNet-based architectures. In the context of image classification models, our visualizations (a) lend insights into their failure modes (showing that seemingly unreasonable predictions have reasonable explanations), (b) are robust to adversarial images, (c) outperform previous methods on weakly-supervised localization, (d) are more faithful to the underlying model and (e) help achieve generalization by identifying dataset bias. For captioning and VQA, our visualizations show that even non-attention based models can localize inputs. Finally, we conduct human studies to measure if GradCAM explanations help users establish trust in predictions from deep networks and show that GradCAM helps untrained users successfully discern a "stronger" deep network from a "weaker" one. Our code is available at https://github.com/ramprs/grad-cam. A demo and a video of the demo can be found at http://gradcam.cloudcv.org and youtu.be/COjUB9Izk6E.},
+archivePrefix = {arXiv},
+arxivId = {1610.02391},
+author = {Selvaraju, Ramprasaath R. and Cogswell, Michael and Das, Abhishek and Vedantam, Ramakrishna and Parikh, Devi and Batra, Dhruv},
+eprint = {1610.02391},
+file = {:home/bal/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Selvaraju et al. - 2016 - Grad-CAM Visual Explanations from Deep Networks via Gradient-based Localization.pdf:pdf},
+month = {oct},
+title = {{Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization}},
+url = {http://arxiv.org/abs/1610.02391},
+year = {2016}
+}
+@article{Li2018,
+abstract = {Modern learning models are characterized by large hyperparameter spaces. In order to adequately explore these large spaces, we must evaluate a large number of configurations, typically orders of magnitude more configurations than available parallel workers. Given the growing costs of model training, we would ideally like to perform this search in roughly the same wall-clock time needed to train a single model. In this work, we tackle this challenge by introducing ASHA, a simple and robust hyperparameter tuning algorithm with solid theoretical underpinnings that exploits parallelism and aggressive early-stopping. Our extensive empirical results show that ASHA outperforms state-of-the hyperparameter tuning methods; scales linearly with the number of workers in distributed settings; converges to a high quality configuration in half the time taken by Vizier (Google's internal hyperparameter tuning service) in an experiment with 500 workers; and beats the published result for a near state-of-the-art LSTM architecture in under 2x the time to train a single model.},
+archivePrefix = {arXiv},
+arxivId = {1810.05934},
+author = {Li, Liam and Jamieson, Kevin and Rostamizadeh, Afshin and Gonina, Ekaterina and Hardt, Moritz and Recht, Benjamin and Talwalkar, Ameet},
+eprint = {1810.05934},
+file = {:home/bal/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Li et al. - 2018 - Massively Parallel Hyperparameter Tuning.pdf:pdf},
+month = {oct},
+title = {{Massively Parallel Hyperparameter Tuning}},
+url = {http://arxiv.org/abs/1810.05934},
+year = {2018}
+}
+@article{Hinz2018,
+abstract = {Most learning algorithms require the practitioner to manually set the values of many hyperparameters before the learning process can begin. However, with modern algorithms, the evaluation of a given hyperparameter setting can take a considerable amount of time and the search space is often very high-dimensional. We suggest using a lower-dimensional representation of the original data to quickly identify promising areas in the hyperparameter space. This information can then be used to initialize the optimization algorithm for the original, higher-dimensional data. We compare this approach with the standard procedure of optimizing the hyperparameters only on the original input. We perform experiments with various state-of-the-art hyperparameter optimization algorithms such as random search, the tree of parzen estimators (TPEs), sequential model-based algorithm configuration (SMAC), and a genetic algorithm (GA). Our experiments indicate that it is possible to speed up the optimization process by using lower-...},
+author = {Hinz, Tobias and Navarro-Guerrero, Nicol{\'{a}}s and Magg, Sven and Wermter, Stefan},
+doi = {10.1142/S1469026818500086},
+issn = {1469-0268},
+journal = {International Journal of Computational Intelligence and Applications},
+keywords = {Bayesian optimization,Hyperparameter optimization,convolutional neural networks,genetic algorithm,hyperparameter importance},
+month = {jun},
+number = {02},
+pages = {1850008},
+publisher = { World Scientific Publishing Company },
+title = {{Speeding up the Hyperparameter Optimization of Deep Convolutional Neural Networks}},
+url = {https://www.worldscientific.com/doi/abs/10.1142/S1469026818500086},
+volume = {17},
+year = {2018}
+}
+@article{Zoph2016,
+abstract = {Neural networks are powerful and flexible models that work well for many difficult learning tasks in image, speech and natural language understanding. Despite their success, neural networks are still hard to design. In this paper, we use a recurrent network to generate the model descriptions of neural networks and train this RNN with reinforcement learning to maximize the expected accuracy of the generated architectures on a validation set. On the CIFAR-10 dataset, our method, starting from scratch, can design a novel network architecture that rivals the best human-invented architecture in terms of test set accuracy. Our CIFAR-10 model achieves a test error rate of 3.65, which is 0.09 percent better and 1.05x faster than the previous state-of-the-art model that used a similar architectural scheme. On the Penn Treebank dataset, our model can compose a novel recurrent cell that outperforms the widely-used LSTM cell, and other state-of-the-art baselines. Our cell achieves a test set perplexity of 62.4 on the Penn Treebank, which is 3.6 perplexity better than the previous state-of-the-art model. The cell can also be transferred to the character language modeling task on PTB and achieves a state-of-the-art perplexity of 1.214.},
+archivePrefix = {arXiv},
+arxivId = {1611.01578},
+author = {Zoph, Barret and Le, Quoc V.},
+eprint = {1611.01578},
+file = {:home/bal/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Zoph, Le - 2016 - Neural Architecture Search with Reinforcement Learning.pdf:pdf},
+month = {nov},
+title = {{Neural Architecture Search with Reinforcement Learning}},
+url = {http://arxiv.org/abs/1611.01578},
+year = {2016}
+}
+@misc{Ozbulak2018,
+author       = {Ozbulak, Utku},
+title        = {{Convolutional Neural Network Visualizations}},
+year         = 2018,
+publisher    = {GitHub},
+url          = {https://github.com/utkuozbulak/pytorch-cnn-visualizations#convolutional-neural-network-filter-visualization}
+}
+@techreport{Erhan2009,
+       author = {Erhan, Dumitru and Bengio, Yoshua and Courville, Aaron and Vincent, Pascal},
+        month = jun,
+        title = {Visualizing Higher-Layer Features of a Deep Network},
+       number = {1341},
+         year = {2009},
+  institution = {University of Montreal},
+  url         = {https://pdfs.semanticscholar.org/65d9/94fb778a8d9e0f632659fb33a082949a50d3.pdf}
+}
