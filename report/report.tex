@@ -46,10 +46,34 @@ Robust systems for automatic hand gesture recognition have numerous applications
 \end{abstract}
 
 \section{Introduction}
-TODO
+
+Applications:
+- Disability assistance
+- Natural User Interfaces (NUIs)
+- Games
+
+Tools:
+- Pytorch: Built-in modules for dataset loading, layers, activations, optimizers, .., automatic differentiation (easy)
+- Kaggle, Google Colab, Lab clusters: Grdis search for optimal hyperparameters
+
+Training only took a few minutes: Allowed for fast prototyping and training at home
 
 \section{Dataset}
-TODO
+
+- Sign language MNIST
+- Can be found online
+- Images of hand poses corresponding to the American Sign language alphabet, except letters J and Z because they require motion for their representation
+- Grayscale, 28x28 pixels, similar to classical Digit Recognition MNIST dataset
+- One class per letter: 26 classes, but only images for 24 of those, labels 0-25
+- Training set: 27455 images, Test set: 7172 images
+- Dataset relies heavily on data augmentation:
+  - Original images: 1794 RGB, by 7 different users
+  - Not much variation in those original images: similar hand poses, lightning conditions, backgrounds, ..
+  - Preparation: Cropping to hand, resizing, grayscaling
+  - Data augmentation by dataset creators: 50+ variations
+    - Different filters, Random noise, brightness and contrast variations, small amounts of random rotation
+  - Own data augmentation:
+    - Random rotation, random horizontal flip (left-handed), Random crop (random position, aspect ratio and slightly smaller size, resized to 28 by 28)
 
 \section{Models}
 \subsection{SimpleCNN}
