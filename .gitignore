@@ -13,6 +13,8 @@ data/raw
 data/processed
 *_extracted*
 
+*Thumbs.db
+
 ############# LATEX #############
 ## Core latex/pdflatex auxiliary files:
 *.aux
