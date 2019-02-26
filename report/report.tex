@@ -6,6 +6,8 @@
 \usepackage{hyperref}
 \hypersetup{breaklinks=true}
 \usepackage{listings}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \lstset{
      breaklines=true,
      basicstyle=\ttfamily
@@ -76,39 +78,86 @@ Training only took a few minutes: Allowed for fast prototyping and training at h
     - Random rotation, random horizontal flip (left-handed), Random crop (random position, aspect ratio and slightly smaller size, resized to 28 by 28)
 
 \section{Models}
-\subsection{SimpleCNN}
-\begin{figure}
+
+In order to solve this task we designed various deep learning models and evaluated them using the test dataset. Each model consists of a convolutional neural network (CNN) followed by a fully connected neural network. During the process of development we increased the complexity of our nets beginning with the SimpleCNN (see section \ref{sec:simpleCNN}). As the successor we propose a net called  DeepCNN in section \ref{sec:deepCNN}. We improved the results of the DeepCNN by augmenting the training data and adding regularization technique (section \ref{sec:deepCNN_augmented} and \ref{sec:deepCNN_regularized}).
+
+\subsection{SimpleCNN}\label{sec:simpleCNN}
+
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/SimpleCNN}
+        \caption{\textit{Model of SimpleCNN}}
+        \label{fig:simpleCNN_model}
+    \end{subfigure}
+    \qquad
+    \qquad
+    \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/SimpleCNN_Results}
+        \caption{\textit{Results on SimpleCNN}}
+        \label{fig:simpleCNN_results}
+    \end{subfigure}
+    \caption{\textit{Subpot \ref{fig:simpleCNN_model} visualizes all layers of the SimpleCNN model. Subplot \ref{fig:simpleCNN_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:simpleCNN}
+\end{figure*}
+
+In our first attempt we designed a basic model to classify the hand gestures, called the SimpleCNN. Figure \ref{fig:simpleCNN_model} visualizes the overall strucutre. This model takes a tensor of the dimensions 1x28x28 as an input since the data consists of 28x28 pixels grayscale images. The images are processed by a convolution layer with the kernel size of 3x3 and zero padding, thus it does not reduce the last two dimensions. Afterwards an exponential linear unit (ELU, \cite{clevert2015fast}) is applied as an activation function with $\alpha = 1$.
+\vspace{-0.2cm}
+
+\begin{equation}\label{eq:elu}
+f(x) = \left\{\begin{alignedat}{2}
+    & x && \qquad \text{if} \quad x < 0\\
+    & \alpha \cdot (e^x - 1) && \qquad \text{if} \quad x >= 0\\
+  \end{alignedat}\right.
+\end{equation}
+
+The ELU has some advantages over the widely used activation function Rectified Linear Unit (ReLU). By design, the ELU function (equation \ref{eq:elu}) is smooth and can produce negative values. For this reason, the mean of all activations is closer to zero, which results in a faster learning \cite{clever2015fast}.
+
+
+\subsection{DeepCNN}\label{sec:deepCNN}
+
+\begin{figure*}
+    \centering
+    \hspace{-1cm}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13}
+        \caption{\textit{Model of DeepCNN}}
+        \label{fig:deepCNN_model}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_Results}
+        \caption{\textit{Results on DeepCNN}}
+        \label{fig:deepCNN_results}
+    \end{subfigure}
+    \caption{\textit{Subpot \ref{fig:deepCNN_model} visualizes all layers of the DeepCNN model. Subplot \ref{fig:deepCNN_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN}
+\end{figure*}
+
+\subsection{DeepCNN with Data Augemntation}\label{sec:deepCNN_augmented}
+
+\begin{figure*}
      \centering
-     \includegraphics[height=0.7\linewidth]{graphics/nets/SimpleCNN}
-     \caption{\textit{TODO}}
-     \label{fig:simpleCNN}
-\end{figure}
-
-\begin{figure}
-     \centering
-     \includegraphics[width=.9\linewidth]{graphics/nets/SimpleCNN_Results}
-     \caption{\textit{TODO}}
-     \label{fig:simpleCNN_results}
-\end{figure}
+     \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_Augmentation_Results}
+     \caption{\textit{Left plot displays the train and test losses for the DeepCNN with prior application of the random crop data augmentation as a function of the trained epochs. The right plot displays the train and test accurracies.}}
+     \label{fig:deepCNN_augmented}
+\end{figure*}
 
 
-\subsection{DeepCNN}
-\begin{figure}
-     \centering
-     \includegraphics[height=0.7\linewidth]{graphics/nets/CNN13}
-     \caption{\textit{TODO}}
-     \label{fig:deepCNN}
-\end{figure}
+\subsection{DeepCNN with Regularization}\label{sec:deepCNN_regularized}
+\begin{figure*}
+    \centering
+    \hspace{-1cm}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_BN}
+        \caption{\textit{Model of DeepCNN with regularization}}
+        \label{fig:deepCNN_regularized_model}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_BN_Results}
+        \caption{\textit{Results on DeepCNN with regularization}}
+        \label{fig:deepCNN_regularized_results}
+    \end{subfigure}
+    \caption{\textit{Subpot \ref{fig:deepCNN_regularized_model} visualizes all layers of the DeepCNN with regularization model. Subplot \ref{fig:deepCNN_regularized_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN_regularized}
+\end{figure*}
 
-\subsection{DeepCNN with Data Augemntation}
-
-\subsection{DeepCNN with Regularization}
-\begin{figure}
-     \centering
-     \includegraphics[height=0.7\linewidth]{graphics/nets/CNN13_with_BN}
-     \caption{\textit{TODO}}
-     \label{fig:deepCNN_regular}
-\end{figure}
 
 \section{Evaluation}
 \subsection{Validation on custom dataset}
