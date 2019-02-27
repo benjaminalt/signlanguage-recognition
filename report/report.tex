@@ -227,8 +227,6 @@ To determine the trained model's capacity to generalize to real-world examples b
 \end{figure}
 A common visualization technique for understanding the features learned by a convolutional neural network is to display the weights in the filters of the convolutional layers. Filters at the first layers tend to be easily interpretable, usually as pattern or edge detectors, while the filters of deeper layers become less interpretable. A different approach is to visualize the optimal input image with respect to a given convolution via gradient ascent in the input space \cite{Erhan2009}. This way, we do not visualize the weights, but rather the \enquote{archetypical feature} which maximizes the output of a given filter. Algorithm \ref{alg:filter_visualization} shows a PyTorch-based implementation of the optimization-based filter visualization.
 
-[TODO: The algorithm code does not explain, where conv_output comes from. it was never declared nor returned by a function]
-
 \begin{algorithm}
      \caption{Convolution Input Optimization}\label{alg:filter_visualization}
      \begin{lstlisting}[language=Python]
@@ -246,6 +244,8 @@ for i in range(30):
     optimizer.step()
      \end{lstlisting}
 \end{algorithm}
+
+[TODO: The algorithm code \ref{alg:filter_visualization} does not explain, where \texttt{conv\_output} comes from. it was never declared nor returned by a function].
 
 A PyTorch layer hook function is registered to save the output (here: \texttt{conv\_output}) of the convolution with a specified filter at a specified layer (here: \texttt{selected\_layer}). An \texttt{Adam} optimizer \cite{Kingma2014} is initialized for a random image. In each of a total of 30 iterations, the optimizer's gradients are reset and the current version of the input image is forward-propagated through the network up to the specified layer, at which point the registered hook function stores the convolution output in \texttt{conv\_output}. The loss (the negative mean of \texttt{conv\_output}) is then backpropagated through the network and the image is updated by the optimizer.\\
 A subset of the resulting images is shown in figure \ref{fig:filters}. In the first layers, the outputs of the convolutions are maximized for high-frequency inputs with different primary orientations. Filters in deeper layers respond more strongly to lower-frequency patterns. This indicates that filters in deeper layers respond more strongly to larger features of the image and suggests that the network has learned to extract features beyond the high-frequency noise characteristics of the training set.
