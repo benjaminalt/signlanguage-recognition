@@ -160,7 +160,7 @@ f(x) = \left\{\begin{alignedat}{2}
 The ELU has some advantages over the widely used activation function Rectified Linear Unit (ReLU). By design, the ELU function (equation \ref{eq:elu}) is smooth and can produce negative values. For this reason, the mean of all activations is closer to zero, which results in a faster learning \cite{clever2015fast}.
 The resulting activation is processed by a 2x2 max pooling layer in order to reduce the dimensionality. Subsequently, we applied two fully connected layer with an ELU function in-between and a Softmax activation function at the end. This results in a probability distribution of 26 classes, one class per character. Due to the fact, that the letters J and Z need motion to be recognized, they are not part of the training set. The activation for those two classes is presumably close to zero after training for all inputs.
 
-We used the Adam optimizer \cite{Kingma2014} in conjunction with mini batch training with a batch size of 512 instances. The optimizer minimized the cross entropy error between our output vector and the ground truth vector. 
+We used the Adam optimizer \cite{Kingma2014} in conjunction with mini batch training with a batch size of 512 instances. The optimizer minimized the cross entropy error with L2 regularization between our output vector and the ground truth vector. 
 Figure \ref{fig:simpleCNN_results} shows the development of the training and test losses, as well as the training and test accurracies throughout the training process. The test loss curve (red) indicates, that after 10 epochs the net stops to learn generalized features. The training loss decreases further until it reaches zero. This suggests, that the net is memorizing the training data without losing its generalization. We achieved a train accuracy of 80.7 \% after 20 epochs.
 
 \subsection{DeepCNN}\label{sec:deepCNN}
@@ -183,7 +183,7 @@ Figure \ref{fig:simpleCNN_results} shows the development of the training and tes
 
 In order to improve our results, we designed the DeepCNN. This neural net has in comparison with the SimpleCNN more convolutional layers, more pooling layers and more neurons in the fully connected layers. The convolution part is structured in convolution blocks, each consisting of two 3x3 convolution layers, two ELU functions and one 2x2 max pool layer. The latter reduces the last two dimensions by the factor of two. The DeepCNN contains three cascaded convolution blocks with two fully connected layers subsequently. We experienced with a large number of variations of the DeepCNN in order to find the best net layout. Surprisingly, the best net does reduce the number of kernels in deeper layers. For a schematic see figure \ref{fig:deepCNN_model}. 
 
-The evalution for this training can be found in figure \ref{fig:deepCNN_results}. We achieved 94.7 \% train accuracy after only 4 epochs. The following epochs did not change anything. 
+The evalution for this training can be found in figure \ref{fig:deepCNN_results}. We achieved 94.7 \% train accuracy after only 4 epochs. The following epochs did neither improve nor worsen the test accuracy. 
 
 \subsection{DeepCNN with Data Augemntation}\label{sec:deepCNN_augmented}
 
@@ -194,25 +194,28 @@ The evalution for this training can be found in figure \ref{fig:deepCNN_results}
      \label{fig:deepCNN_augmented}
 \end{figure*}
 
-test test test test test test test test test test 
+We applied an data augmentation technique to the train dataset in order to improve the generalization of the DeepCNN. We chose the random crop augmentation (see section [TODO]), which produces the results in figure \ref{fig:deepCNN_augmented}. After 20 epochs we reached 99.7 \% test accuracy. During the learning phase the test accuracy decreased multiple times for a short period before reaching the maximum. In the following section we apply regularization techniques such as batch normalization and dropout to reduce this effect and to learn faster. 
 
-\subsection{DeepCNN with Regularization}\label{sec:deepCNN_regularized}
+\subsection{DeepCNN with Batch Normalization and Dropout}\label{sec:deepCNN_regularized}
 \begin{figure*}
     \centering
     \hspace{-1cm}
     \begin{subfigure}[b]{0.4\textwidth}
         \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_BN}
-        \caption{\textit{Model of DeepCNN with regularization}}
+        \caption{\textit{Model of DeepCNN with batch normalization and dropout}}
         \label{fig:deepCNN_regularized_model}
     \end{subfigure}
     \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_BN_Results}
-        \caption{\textit{Results on DeepCNN with regularization}}
+        \caption{\textit{Results on DeepCNN with batch normalization and dropout}}
         \label{fig:deepCNN_regularized_results}
     \end{subfigure}
-    \caption{\textit{Subpot \ref{fig:deepCNN_regularized_model} visualizes all layers of the DeepCNN with regularization model. Subplot \ref{fig:deepCNN_regularized_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN_regularized}
+    \caption{\textit{Subpot \ref{fig:deepCNN_regularized_model} visualizes all layers of the DeepCNN model with batch normalization and dropout. Subplot \ref{fig:deepCNN_regularized_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN_regularized}
 \end{figure*}
 
+We modified the convolution block by adding batch normalization \cite{ioffe2015batch} after each convolution layer. Batch normalization is applied to each mini batch in order to normalize the data distribution between layers. Thus allowing larger learning rates, gives more robustness against parameter initialization and reduces saturation of layers. \cite{ioffe2015batch}. In order to increase the generalization of our fully connected layers we added dropout to the first one during the training phase. This technique randomly selects neurons and set their output to zero. For our experiments we tried different dropout probabilities between 0.5 \% and 0.95 \%.
+
+Figure \ref{fig:deepCNN_regularized_results} shows the train/test losses and accuracies throuout the training. Due to the dropout in the training phase, the train loss (blue line) is now higher than the test loss (red line). After 9 epochs we reached a train accuracy of 100 \% using a dropout probability of 95 \%. This high dropout probability implies, that our first fully connected layer of our neural net is to big and might would work with less neurons as well. For comparison, we viewed the leaderboard of the similar task digit classification on the MNIST dataset. Our network achieved an error of 0 \%, while the seemingly easier task due to the number of classes has 0.21 \% as its best. This has two reasons. Firstly, the MNIST dataset contains digits, which are not clearly written and therefore cannot be identified uniquely even for humans, while the SignlanuageMNIST dataset only contains well-defined characters. Secondly, our dataset was created from [TOOD] images from 7 different persons. This results in a great similarity between the train and test images and therefore yields in a easier classification task.
 
 \section{Evaluation}
 \subsection{Validation on custom dataset}
@@ -297,7 +300,7 @@ Exemplary results of computing the gradient class-activation maps for images fro
 
 \section{Conclusion and outlook}
 Considering the implementation and evaluation of our model, a number of relevant conclusions can be drawn.\\
-First, it is interesting to observe that for this particular problem, test accuracies exceeding [TODO]\% can be reached with a very simple neural network consisting of only one convolutional layer and two linear layers without regularization. With a relatively simple deep model containing three convolutional and three fully connected layers, test accuracies exceeded [TODO]\% without any optimizations. This illustrates the particular suitability of convolutional neural networks for image classification in general as well as the suitability of the architecture combining convolutional feature extractors and fully connected classifiers for the particular task of hand gesture recognition.\\
+First, it is interesting to observe that for this particular problem, test accuracies exceeding [TODO]\% can be reached with a very simple neural network consisting of only one convolutional layer and two linear layers without regularization [TODO Note: L2 Regularization was used by default from the optimizer]. With a relatively simple deep model containing three convolutional and three fully connected layers, test accuracies exceeded [TODO]\% without any optimizations. This illustrates the particular suitability of convolutional neural networks for image classification in general as well as the suitability of the architecture combining convolutional feature extractors and fully connected classifiers for the particular task of hand gesture recognition.\\
 Second, we observed that while a high-performing network architecture and parameterizion could be found relatively quickly, a large amount of fine-tuning both of the architecture and the parameters was required to reach test accuracies exceeding 98\%. Somewhat surprisingly, grid search proved to be less effective in maximizing test accuracy than manual parameter tuning due to the high dimensionality of the parameter space. State-of-the-art approaches for automatic architecture and parameter search solve this problem by leveraging reinforcement learning \cite{Zoph2016}, dimensionality reduction \cite{Hinz2018} or massive parallelization \cite{Li2018}.\\
 Lastly, and probably most significantly, we observed that the capacity of the trained model to generalize to test instances from different distributions at least partly depends on the variance of the training set. In our case, the fact that the training dataset featured only seven different hands and was generated by data augmentation from only 1704 original images, all of which share very similar backgrounds and lighting characteristics, caused the network to learn at least some characteristics of the dataset irrelevant for the actual classification of hand gestures, despite heavy regularization efforts and additional data augmentation during training. Along the same lines, we observed that a high classification accuracy on the test set is not a measure of true generalization capacity if the test set is drawn from the same or a very similar distribution as the training set.\\
 \subsection{Future work}
