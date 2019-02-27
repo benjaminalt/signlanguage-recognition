@@ -51,7 +51,7 @@ Robust systems for automatic hand gesture recognition have numerous applications
 
 Hand gesture recognition has various applications, such as controlling natural computer user interfaces (NUIs) \cite{GlueTK} or interacting in virtual reality environments \cite{MicrosoftTalkingHands}. In this work we created convolutional neural networks that can recognize hand gestures corresponding to letters of the American Sign Language alphabet. Solving this in general would be of great benefit for assisting in the communication with deaf people via automatic live video interpretation.
 
-We implemented our neural networks with the PyTorch framework \cite{PyTorch}. This allowed use to reuse various already existing modules for loading the dataset, applying image transformations, assembling the neural network architecture with different kinds of layers and activation functions and hooking established optimizers such as Adam \cite{Adam} into the training procedure.
+We implemented our neural networks with the PyTorch framework \cite{PyTorch}. This allowed use to reuse various already existing modules for loading the dataset, applying image transformations, assembling the neural network architecture with different kinds of layers and activation functions and hooking established optimizers such as Adam \cite{Kingma2014} into the training procedure.
 
 We also experimented with running our neural network training on cloud services such as Kaggle \cite{Kaggle}, Google Colab \cite{Colab} and the institute's own lab clusters. But the training only took a few minutes on regular hardware, which allowed us to do most of the training at our personal computers and quickly prototype and test with different network variations.
 
