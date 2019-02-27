@@ -60,9 +60,7 @@ We introduce the dataset we use for training in chapter \ref{ch:dataset}. In cha
 \section{Dataset}
 \label{ch:dataset}
 
-We trained our neural networks with images from the already existing \textit{Sign Language MNIST} dataset \cite{DatasetKaggle}. Similar to the classical digit recognition MNIST dataset \cite{MNIST}, the images are 28 by 28 pixels in size with one grayscale value between 0 and 255 per pixel. Each image depicts a hand gesture corresponding to one letter in the American Sign Language alphabet. Therefore there are 26 different classes with labels from 0 to 25. But since the letters J and Z require motion to be represented, the dataset doesn't contain images for those two letters. Consequently our neural network only recognizes 24 of those 26 classes.
-
-The original color images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels. The cropped original color images for the different letters can be seen in figure \ref{fig:full_colored}. The corresponding downscaled grayscale images are shown in figure \ref{fig:full_grayscale}.
+We trained our neural networks with images from the already existing \textit{Sign Language MNIST} dataset \cite{DatasetKaggle}. Similar to the classical digit recognition MNIST dataset \cite{MNIST}, the images are 28 by 28 pixels in size with one grayscale value between 0 and 255 per pixel. Each image depicts a hand gesture corresponding to one letter in the American Sign Language alphabet. Therefore there are 26 different classes with labels from 0 to 25. But since the letters J and Z require motion to be represented, the dataset doesn't contain images for those two letters. Consequently our neural network only recognizes 24 of those 26 classes. The cropped original color images for the different letters can be seen in figure \ref{fig:full_colored}. The corresponding downscaled grayscale images are shown in figure \ref{fig:full_grayscale}.
 
 \begin{figure}
      \centering
@@ -173,7 +171,7 @@ The evaluation for this training can be found in figure \ref{fig:deepCNN_results
      \label{fig:deepCNN_augmented}
 \end{figure*}
 
-We applied a data augmentation technique to the train dataset in order to improve the generalization of the DeepCNN. We chose the random crop augmentation (see section [TODO]), which produces the results in figure \ref{fig:deepCNN_augmented}. After 20 epochs we reached 99.7 \% test accuracy. During the learning phase the test accuracy decreased multiple times for a short period before reaching the maximum. In the following section we apply regularization techniques such as batch normalization and dropout to reduce this effect and to learn faster. 
+We applied a data augmentation technique to the train dataset in order to improve the generalization of the DeepCNN. We chose the random crop augmentation (see section \ref{ch:dataset}), which produces the results in figure \ref{fig:deepCNN_augmented}. After 20 epochs we reached 99.7 \% test accuracy. During the learning phase the test accuracy decreased multiple times for a short period before reaching the maximum. In the following section we apply regularization techniques such as batch normalization and dropout to reduce this effect and to learn faster. 
 
 \subsection{DeepCNN with Batch Normalization and Dropout}\label{sec:deepCNN_regularized}
 \begin{figure*}
