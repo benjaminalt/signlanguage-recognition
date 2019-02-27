@@ -49,48 +49,20 @@ Robust systems for automatic hand gesture recognition have numerous applications
 
 \section{Introduction}
 
-Applications:
-- Disability assistance
-- Natural User Interfaces (NUIs)
-- Games
+Hand gesture recognition has various applications, such as controlling natural computer user interfaces (NUIs) \cite{GlueTK} or interacting in virtual reality environments \cite{MicrosoftTalkingHands}. In this work we created convolutional neural networks that can recognize hand gestures corresponding to letters of the American Sign Language alphabet. Solving this in general would be of great benefit for assisting in the communication with deaf people via automatic live video interpretation.
 
-Tools:
-- Pytorch: Built-in modules for dataset loading, layers, activations, optimizers, .., automatic differentiation (easy)
-- Kaggle, Google Colab, Lab clusters: Grdis search for optimal hyperparameters
+We implemented our neural networks with the PyTorch framework \cite{PyTorch}. This allowed use to reuse various already existing modules for loading the dataset, applying image transformations, assembling the neural network architecture with different kinds of layers and activation functions and hooking established optimizers such as Adam \cite{Adam} into the training procedure.
 
-Training only took a few minutes: Allowed for fast prototyping and training at home
+We also experimented with running our neural network training on cloud services such as Kaggle \cite{Kaggle}, Google Colab \cite{Colab} and the institute's own lab clusters. But the training only took a few minutes on regular hardware, which allowed us to do most of the training at our personal computers and quickly prototype and test with different network variations.
+
+We introduce the dataset we use for training in chapter \ref{ch:dataset}. In chapter \ref{ch:models} we present a few of the neural network architecture variations we tried out and describe how we step by step improved the achieved test accuracy. In chapter \ref{ch:evaluation} we apply our trained network to custom images and examine the features learned by the network. Chapter \ref{ch:conclusion} concludes and points out possible future improvements.
 
 \section{Dataset}
+\label{ch:dataset}
 
-- Sign language MNIST
-- Can be found online
-- Images of hand poses corresponding to the American Sign language alphabet, except letters J and Z because they require motion for their representation
-- Grayscale, 28x28 pixels, similar to classical Digit Recognition MNIST dataset
-- One class per letter: 26 classes, but only images for 24 of those, labels 0-25
-- Training set: 27455 images, Test set: 7172 images
-- Dataset relies heavily on data augmentation:
-  - Original images: 1794 RGB, by 7 different users
-  - Not much variation in those original images: similar hand poses, lightning conditions, backgrounds, ..
-  - Preparation: Cropping to hand, resizing, grayscaling
-  - Data augmentation by dataset creators: 50+ variations
-    - Different filters, Random noise, brightness and contrast variations, small amounts of random rotation
-  - Own data augmentation:
-    - Random rotation, random horizontal flip (left-handed), Random crop (random position, aspect ratio and slightly smaller size, resized to 28 by 28)
-
-We trained our neural networks with images from the \textit{Sign Language MNIST} dataset \cite{DatasetKaggle}. Similar to the classical Digit Recognition MNIST dataset \cite{MNIST}, the images are 28 by 28 pixels in size with one grayscale value between 0 and 255 per pixel. Each image depicts a hand gesture corresponding to one letter in the American Sign Language alphabet. Therefore there are 26 different classes with labels from 0 to 25. But since the letters J and Z require motion to be represented, the dataset doesn't contain images for those two letters. Consequently our neural network only recognizes 24 of those 26 classes.
+We trained our neural networks with images from the already existing \textit{Sign Language MNIST} dataset \cite{DatasetKaggle}. Similar to the classical digit recognition MNIST dataset \cite{MNIST}, the images are 28 by 28 pixels in size with one grayscale value between 0 and 255 per pixel. Each image depicts a hand gesture corresponding to one letter in the American Sign Language alphabet. Therefore there are 26 different classes with labels from 0 to 25. But since the letters J and Z require motion to be represented, the dataset doesn't contain images for those two letters. Consequently our neural network only recognizes 24 of those 26 classes.
 
 The original color images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels. The cropped original color images for the different letters can be seen in figure \ref{fig:full_colored}. The corresponding downscaled grayscale images are shown in figure \ref{fig:full_grayscale}.
-
-The dataset is split into a training set with 27455 images and a separate test set with 7172 images. We use the images from the training set to train our neural networks and then determine recognition rates with the images from the test set.
-
-The creators of the dataset heavily relied on data augmentation: They started with 1794 original RGB images that were taken by only 7 different users repeating the various hand gestures. There is not much variation in those original images regarding the hand poses, lightning conditions and backgrounds. Those images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels.
-
-and then applied over 50 variations of different image transformations. Those transformations include 
-
-
-
-
-
 
 \begin{figure}
      \centering
@@ -106,25 +78,32 @@ and then applied over 50 variations of different image transformations. Those tr
      \label{fig:full_grayscale}
 \end{figure}
 
-%\begin{figure}
-%     \centering
-%     \begin{tabular}{cc}
-%          \includegraphics[width=.35\linewidth]{graphics/dataset/colored.png}&\includegraphics[width=.35\linewidth]{graphics/dataset/grayscale.png}
-%     \end{tabular}
-%     \caption{\textit{Original cropped colored image (left) and corresponding grayscale image with noise (right)}}
-%     \label{fig:colored}
-%\end{figure}
+The dataset is split into a training set with 27455 images and a separate test set with 7172 images. We use the images from the training set to train our neural networks and then determine recognition accuracy with the images from the test set.
+
+The creators of the dataset heavily relied on data augmentation \cite{DatasetKaggle}: They started with 1794 source RGB images that were taken by only 7 different users repeating the various hand gestures. Those images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels. They then applied over 50 variations of different image transformations such as different filters (they mention 'Mitchell', 'Robidoux', 'Catrom', 'Spline' and 'Hermite'), 5\% random noise, +/- 15\% random brightness and contrast adjustments and 3 degrees of random rotations. The effect of brightness variations can exemplarily be seen in figure \ref{fig:brightness}.
+
+There is not much variation in the original images regarding the hand poses, lightning conditions and backgrounds. This might be one aspect to why our trained neural networks don't generalize well to our own custom dataset. We further investigate this in chapter \ref{ch:evaluation}.
+
+We were able to further improve our test accuracies by additionally applying our own data augmentation to the training data. We experimented with randomly rotating the images up to 20 degrees and randomly mirroring 10\% of the images horizontally to take left-handedness into account. But ultimately the transformation that improved test accuracies the most was to randomly crop slightly smaller sections from the original training images and resizing them to the 28 by 28 pixels required as input by our neural networks. The cropped sections have a size between 90\% and 100\% of the original image and use aspect ratios between 3/4 and 4/3. Figure \ref{fig:random_crop} visualizes this transformation. We will see the effect on accuracy of this data augmentation in the following chapter \ref{ch:models}.
 
 \begin{figure}
      \centering
      \begin{tabular}{cc}
           \includegraphics[width=.35\linewidth]{graphics/dataset/bright.png}&\includegraphics[width=.35\linewidth]{graphics/dataset/dark.png}
      \end{tabular}
-     \caption{\textit{Variations of brightness}}
+     \caption{\textit{Exemplary variations of brightness}}
      \label{fig:brightness}
 \end{figure}
 
+\begin{figure}
+     \centering
+     \includegraphics[width=0.45\linewidth]{graphics/dataset/random_crop_L.png}
+     \caption{\textit{Data augmentation by randomly cropping and resizing sections of the original training images}}
+     \label{fig:random_crop}
+\end{figure}
+
 \section{Models}
+\label{ch:models}
 
 In order to solve this task, we designed various deep learning models and evaluated them using the test dataset. Each model consists of a convolutional neural network (CNN) followed by a fully connected neural network. During the process of development, we increased the complexity of our nets beginning with the SimpleCNN (see section \ref{sec:simpleCNN}). As the successor we propose a net called  DeepCNN in section \ref{sec:deepCNN}. We improved the results of the DeepCNN by augmenting the training data and adding regularization technique (section \ref{sec:deepCNN_augmented} and \ref{sec:deepCNN_regularized}).
 
@@ -220,6 +199,7 @@ In order to find the best hyperparameters we implemented a grid search, which tr
 Figure \ref{fig:deepCNN_regularized_results} shows the train/test losses and accuracies throughout the training. Due to the dropout in the training phase, the train loss (blue line) is now higher than the test loss (red line). After 9 epochs we reached a train accuracy of 100 \% using a dropout probability of 95 \%. This high dropout probability implies, that our first fully connected layer of our neural net is too big and might would work with less neurons as well. For comparison, we viewed the leaderboard of the similar task digit classification on the MNIST dataset. Our network achieved an error of 0 \%, while the seemingly easier task due to the number of classes has 0.21 \% as its best. This has two reasons. Firstly, the MNIST dataset contains digits, which are not clearly written and therefore cannot be identified uniquely even for humans, while the SignlanuageMNIST dataset only contains well-defined characters. Secondly, our dataset was created from 1794 original images from 7 different persons. This results in a great similarity between the train and test images and therefore yields in an easier classification task.
 
 \section{Evaluation}
+\label{ch:evaluation}
 \subsection{Validation on custom dataset}
 \begin{figure}[t]
      \centering
@@ -301,6 +281,7 @@ Exemplary results of computing the gradient class-activation maps for images fro
 \end{figure}
 
 \section{Conclusion and outlook}
+\label{ch:conclusion}
 Considering the implementation and evaluation of our model, several relevant conclusions can be drawn.\\
 First, it is interesting to observe that for this particular problem, test accuracies exceeding [TODO]\% can be reached with a very simple neural network consisting of only one convolutional layer and two linear layers without regularization [TODO Note: L2 Regularization was used by default from the optimizer]. With a relatively simple deep model containing three convolutional and three fully connected layers, test accuracies exceeded [TODO]\% without any optimizations. This illustrates the particular suitability of convolutional neural networks for image classification in general as well as the suitability of the architecture combining convolutional feature extractors and fully connected classifiers for the particular task of hand gesture recognition.\\
 Second, we observed that while a high-performing network architecture and parameterization could be found relatively quickly, a large amount of fine-tuning both of the architecture and the parameters was required to reach test accuracies exceeding 98\%. Somewhat surprisingly, grid search proved to be less effective in maximizing test accuracy than manual parameter tuning due to the high dimensionality of the parameter space. State-of-the-art approaches for automatic architecture and parameter search solve this problem by leveraging reinforcement learning \cite{Zoph2016}, dimensionality reduction \cite{Hinz2018} or massive parallelization \cite{Li2018}.\\
