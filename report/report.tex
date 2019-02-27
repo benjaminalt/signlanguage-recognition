@@ -111,7 +111,10 @@ f(x) = \left\{\begin{alignedat}{2}
 \end{equation}
 
 The ELU has some advantages over the widely used activation function Rectified Linear Unit (ReLU). By design, the ELU function (equation \ref{eq:elu}) is smooth and can produce negative values. For this reason, the mean of all activations is closer to zero, which results in a faster learning \cite{clever2015fast}.
+The resulting activation is processed by a 2x2 max pooling layer in order to reduce the dimensionality. Subsequently, we applied two fully connected layer with an ELU function in-between and a Softmax activation function at the end. This results in a probability distribution of 26 classes, one class per character. Due to the fact, that the letters J and Z need motion to be recognized, they are not part of the training set. The activation for those two classes is presumably close to zero after training for all inputs.
 
+We used the Adam optimizer \cite{Kingma2014} in conjunction with mini batch training with a batch size of 512 instances. The optimizer minimized the cross entropy error between our output vector and the ground truth vector. 
+Figure \ref{fig:simpleCNN_results} shows the development of the training and test losses, as well as the training and test accurracies throughout the training process. The test loss curve (red) indicates, that after 10 epochs the net stops to learn generalized features. The training loss decreases further until it reaches zero. This suggests, that the net is memorizing the training data without losing its generalization. We achieved a train accuracy of 80.7 \% after 20 epochs.
 
 \subsection{DeepCNN}\label{sec:deepCNN}
 
@@ -131,6 +134,10 @@ The ELU has some advantages over the widely used activation function Rectified L
     \caption{\textit{Subpot \ref{fig:deepCNN_model} visualizes all layers of the DeepCNN model. Subplot \ref{fig:deepCNN_results} displays the train and test losses (left plot), as well as the train and test accurracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN}
 \end{figure*}
 
+In order to improve our results, we designed the DeepCNN. This neural net has in comparison with the SimpleCNN more convolutional layers, more pooling layers and more neurons in the fully connected layers. The convolution part is structured in convolution blocks, each consisting of two 3x3 convolution layers, two ELU functions and one 2x2 max pool layer. The latter reduces the last two dimensions by the factor of two. The DeepCNN contains three cascaded convolution blocks with two fully connected layers subsequently. We experienced with a large number of variations of the DeepCNN in order to find the best net layout. Surprisingly, the best net does reduce the number of kernels in deeper layers. For a schematic see figure \ref{fig:deepCNN_model}. 
+
+The evalution for this training can be found in figure \ref{fig:deepCNN_results}. We achieved 94.7 \% train accuracy after only 4 epochs. The following epochs did not change anything. 
+
 \subsection{DeepCNN with Data Augemntation}\label{sec:deepCNN_augmented}
 
 \begin{figure*}
@@ -140,6 +147,7 @@ The ELU has some advantages over the widely used activation function Rectified L
      \label{fig:deepCNN_augmented}
 \end{figure*}
 
+test test test test test test test test test test 
 
 \subsection{DeepCNN with Regularization}\label{sec:deepCNN_regularized}
 \begin{figure*}
