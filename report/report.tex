@@ -77,6 +77,53 @@ Training only took a few minutes: Allowed for fast prototyping and training at h
   - Own data augmentation:
     - Random rotation, random horizontal flip (left-handed), Random crop (random position, aspect ratio and slightly smaller size, resized to 28 by 28)
 
+We trained our neural networks with images from the \textit{Sign Language MNIST} dataset \cite{DatasetKaggle}. Similar to the classical Digit Recognition MNIST dataset \cite{MNIST}, the images are 28 by 28 pixels in size with one grayscale value between 0 and 255 per pixel. Each image depicts a hand gesture corresponding to one letter in the American Sign Language alphabet. Therefore there are 26 different classes with labels from 0 to 25. But since the letters J and Z require motion to be represented, the dataset doesn't contain images for those two letters. Consequently our neural network only recognizes 24 of those 26 classes.
+
+The original color images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels. The cropped original color images for the different letters can be seen in figure \ref{fig:full_colored}. The corresponding downscaled grayscale images are shown in figure \ref{fig:full_grayscale}.
+
+The dataset is split into a training set with 27455 images and a separate test set with 7172 images. We use the images from the training set to train our neural networks and then determine recognition rates with the images from the test set.
+
+The creators of the dataset heavily relied on data augmentation: They started with 1794 original RGB images that were taken by only 7 different users repeating the various hand gestures. There is not much variation in those original images regarding the hand poses, lightning conditions and backgrounds. Those images were cropped to only contain the hand and then grayscaled and downscaled to 28 by 28 pixels.
+
+and then applied over 50 variations of different image transformations. Those transformations include 
+
+
+
+
+
+
+\begin{figure}
+     \centering
+     \includegraphics[width=1\linewidth]{graphics/dataset/amer_sign2.png}
+     \caption{\textit{Cropped original color images of hand gestures corresponding to the American Sign Language alphabet \cite{DatasetKaggle}}}
+     \label{fig:full_colored}
+\end{figure}
+
+\begin{figure}
+     \centering
+     \includegraphics[width=1\linewidth]{graphics/dataset/amer_sign3.png}
+     \caption{\textit{Downscaled grayscale images from the dataset \cite{DatasetKaggle}}}
+     \label{fig:full_grayscale}
+\end{figure}
+
+%\begin{figure}
+%     \centering
+%     \begin{tabular}{cc}
+%          \includegraphics[width=.35\linewidth]{graphics/dataset/colored.png}&\includegraphics[width=.35\linewidth]{graphics/dataset/grayscale.png}
+%     \end{tabular}
+%     \caption{\textit{Original cropped colored image (left) and corresponding grayscale image with noise (right)}}
+%     \label{fig:colored}
+%\end{figure}
+
+\begin{figure}
+     \centering
+     \begin{tabular}{cc}
+          \includegraphics[width=.35\linewidth]{graphics/dataset/bright.png}&\includegraphics[width=.35\linewidth]{graphics/dataset/dark.png}
+     \end{tabular}
+     \caption{\textit{Variations of brightness}}
+     \label{fig:brightness}
+\end{figure}
+
 \section{Models}
 
 In order to solve this task we designed various deep learning models and evaluated them using the test dataset. Each model consists of a convolutional neural network (CNN) followed by a fully connected neural network. During the process of development we increased the complexity of our nets beginning with the SimpleCNN (see section \ref{sec:simpleCNN}). As the successor we propose a net called  DeepCNN in section \ref{sec:deepCNN}. We improved the results of the DeepCNN by augmenting the training data and adding regularization technique (section \ref{sec:deepCNN_augmented} and \ref{sec:deepCNN_regularized}).
