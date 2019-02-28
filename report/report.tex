@@ -128,7 +128,7 @@ In order to solve this task, we designed various deep learning models and evalua
         \caption{\textit{Results on SimpleCNN}}
         \label{fig:simpleCNN_results}
     \end{subfigure}
-    \caption{\textit{Subplot \ref{fig:simpleCNN_model} visualizes all layers of the SimpleCNN model. Subplot \ref{fig:simpleCNN_results} displays the train and test losses (left plot), as well as the train and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:simpleCNN}
+    \caption{\textit{Subplot \ref{fig:simpleCNN_model} visualizes all layers of the SimpleCNN model. Subplot \ref{fig:simpleCNN_results} displays the training and test losses (left plot), as well as the training and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:simpleCNN}
 \end{figure*}
 
 In a first attempt we designed SimpleCNN, a basic model for classifying hand gestures. Figure \ref{fig:simpleCNN_model} visualizes the overall structure. This model takes a tensor of dimensions 1x28x28 as an input since the data consists of 28x28 pixels grayscale images. The images are processed by a convolution layer with a kernel size of 3x3 and zero padding, thus it does not reduce the last two dimensions. Afterwards an exponential linear unit (ELU, \cite{clevert2015fast}) activation function with $\alpha = 1$ is applied:
@@ -142,10 +142,10 @@ f(x) = \left\{\begin{alignedat}{2}
 \end{equation}
 
 The ELU has some advantages over the widely used Rectified Linear Unit (ReLU) activation function. By design, the ELU function (equation \ref{eq:elu}) is smooth and can produce negative values. For this reason, the mean of all activations is closer to zero, which results in faster learning \cite{clevert2015fast}.
-The resulting activation is processed by a 2x2 max pooling layer in order to reduce the dimensionality. Subsequently, we applied two fully connected layer with an ELU function in-between and a softmax activation function at the end. This results in a probability distribution of 26 classes, one class per character. Due to the fact, that the letters J and Z need motion to be recognized, they are not part of the training set. The activation for those two classes is presumably close to zero after training for all inputs.
+The resulting activation is processed by a 2x2 max pooling layer in order to reduce the dimensionality. Subsequently, we applied two fully connected layers with an ELU function in-between and a softmax activation function at the end. This results in a probability distribution of 26 classes, one class per character. Due to the fact, that the letters J and Z require motion to be represented, they are not part of the training set. The activation for those two classes is presumably close to zero after training for all inputs.
 
 We used the Adam optimizer \cite{Kingma2014} in conjunction with mini batch training with a batch size of 512 instances. The optimizer minimized the cross-entropy error with L2 regularization between our output vector and the ground truth vector. 
-Figure \ref{fig:simpleCNN_results} shows the development of the training and test losses, as well as the training and test accuracies throughout the training process. The test loss curve (red) indicates that after 10 epochs the net stops to learn generalized features. The training loss decreases further until it reaches zero. This suggests that the net is memorizing the training data without losing its generalization. We achieved a train accuracy of 80.7\% after 20 epochs.
+Figure \ref{fig:simpleCNN_results} shows the development of the training and test losses, as well as the training and test accuracies throughout the training process. The test loss curve (red) indicates that after 10 epochs the net stops to learn generalized features. The training loss decreases further until it reaches zero. This suggests that the net is memorizing the training data without losing its generalization. We achieved a training accuracy of 80.7\% after 20 epochs.
 
 \subsection{DeepCNN}\label{sec:deepCNN}
 
@@ -162,23 +162,23 @@ Figure \ref{fig:simpleCNN_results} shows the development of the training and tes
         \caption{\textit{Results on DeepCNN}}
         \label{fig:deepCNN_results}
     \end{subfigure}
-    \caption{\textit{Subplot \ref{fig:deepCNN_model} visualizes all layers of the DeepCNN model. Subplot \ref{fig:deepCNN_results} displays the train and test losses (left plot), as well as the train and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN}
+    \caption{\textit{Subplot \ref{fig:deepCNN_model} visualizes all layers of the DeepCNN model. Subplot \ref{fig:deepCNN_results} displays the training and test losses (left plot), as well as the training and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN}
 \end{figure*}
 
-In order to improve our results, we designed DeepCNN. This neural net has more convolutional layers, more pooling layers and more neurons in the fully connected layers than SimpleCNN. The convolution part is structured in convolution blocks, each consisting of two 3x3 convolution layers, two ELU functions and one 2x2 max pool layer. The latter reduces the last two dimensions by the factor of two. The DeepCNN contains three cascaded convolution blocks with two fully connected layers subsequently. We experienced with many variations of the DeepCNN in order to find the best net layout. Surprisingly, the network which performed best on the test set reduces the number of kernels in deeper layers. For a schematic see figure \ref{fig:deepCNN_model}. 
+In order to improve our results, we designed DeepCNN. This neural net has more convolutional layers, more pooling layers and more neurons in the fully connected layers than SimpleCNN. The convolution part is structured in convolution blocks, each consisting of two 3x3 convolution layers, two ELU functions and one 2x2 max pool layer. The latter reduces the last two dimensions by the factor of two. The DeepCNN contains three cascaded convolution blocks with two fully connected layers subsequently. We experimented with many variations of the DeepCNN in order to find an as good as possible net layout. Surprisingly, the network which performed best on the test set reduces the number of kernels in deeper layers. For a schematic see figure \ref{fig:deepCNN_model}. 
 
-The evaluation for training this network is shown in figure \ref{fig:deepCNN_results}. We achieved 94.7\% train accuracy after only 4 epochs. During subsequent epochs, the test accuracy neither improved nor worsened. 
+The evaluation for training this network is shown in figure \ref{fig:deepCNN_results}. We achieved 94.7\% training accuracy after only 4 epochs. During subsequent epochs, the test accuracy neither improved nor worsened. 
 
 \subsection{DeepCNN with Data Augmentation}\label{sec:deepCNN_augmented}
 
 \begin{figure*}
      \centering
      \includegraphics[height=0.25\paperwidth]{graphics/nets/CNN13_with_Augmentation_Results}
-     \caption{\textit{The left plot displays the train and test losses for the DeepCNN with prior application of the random crop data augmentation as a function of the trained epochs. The right plot displays the train and test accuracies.}}
+     \caption{\textit{The left plot displays the training and test losses for the DeepCNN with prior application of the random crop data augmentation as a function of the trained epochs. The right plot displays the training and test accuracies.}}
      \label{fig:deepCNN_augmented}
 \end{figure*}
 
-We applied a data augmentation technique to the train dataset in order to improve the generalization of the DeepCNN. We chose random crop augmentation (see section \ref{ch:dataset}), which produces the results in figure \ref{fig:deepCNN_augmented}. After 20 epochs we reached 99.7\% test accuracy. During the learning phase the test accuracy decreased multiple times for a short period before reaching the maximum. In the following section we apply regularization techniques such as batch normalization and dropout to reduce this effect and to learn faster. 
+We applied a data augmentation technique to the training dataset in order to improve the generalization of the DeepCNN. We chose random crop augmentation (see section \ref{ch:dataset}), which produces the results in figure \ref{fig:deepCNN_augmented}. After 20 epochs we reached 99.7\% test accuracy. During the learning phase the test accuracy decreased multiple times for a short period before reaching the maximum. In the following section we apply regularization techniques such as batch normalization and dropout to reduce this effect and to learn faster. 
 
 \subsection{DeepCNN with Batch Normalization and Dropout}\label{sec:deepCNN_regularized}
 \begin{figure*}
@@ -194,14 +194,14 @@ We applied a data augmentation technique to the train dataset in order to improv
         \caption{\textit{Results on DeepCNN with batch normalization and dropout}}
         \label{fig:deepCNN_regularized_results}
     \end{subfigure}
-    \caption{\textit{Subplot \ref{fig:deepCNN_regularized_model} visualizes all layers of the DeepCNN model with batch normalization and dropout. Subplot \ref{fig:deepCNN_regularized_results} displays the train and test losses (left plot), as well as the train and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN_regularized}
+    \caption{\textit{Subplot \ref{fig:deepCNN_regularized_model} visualizes all layers of the DeepCNN model with batch normalization and dropout. Subplot \ref{fig:deepCNN_regularized_results} displays the training and test losses (left plot), as well as the training and test accuracies (right plot) as a function of the trained epochs.}}\label{fig:deepCNN_regularized}
 \end{figure*}
 
 We modified the convolution block by adding batch normalization \cite{ioffe2015batch} after each convolution layer. Batch normalization is applied to each mini batch in order to normalize the data distribution between layers. This allows larger learning rates, gives more robustness against parameter initialization and reduces saturation of layers \cite{ioffe2015batch}. In order to increase the generalization of the fully connected layers, we added dropout to the first layer during the training phase. This technique randomly selects neurons and sets their output to zero. 
 
 In order to find the best hyperparameters we implemented a grid search, which trained and evaluated the whole network for all combinations of a discrete set of hyperparameter values. The varied hyperparameters are batch size, learning rate, weight decay, dropout probability and the usage of batch normalization.
 
-Figure \ref{fig:deepCNN_regularized_results} shows the train/test losses and accuracies throughout the training. Due to the dropout in the training phase, the train loss (blue line) is now higher than the test loss (red line). After 9 epochs we reached a train accuracy of 100\% using a dropout probability of 95\%. This high dropout probability suggests that the first fully connected layer of our neural net is too big and might would work with less neurons as well. For comparison, we viewed the leaderboard of the similar task digit classification on the MNIST dataset. Our network achieved an error of 0\%, while the seemingly easier task due to the number of classes has 0.21\% as its best. This has two reasons. Firstly, the MNIST dataset contains digits, which are not clearly written and therefore cannot be identified uniquely even for humans, while the \textit{Sign Language MNIST} dataset only contains well-defined characters. Secondly, our dataset was created from 1794 original images from 7 different persons. This results in a great similarity between the train and test images and therefore constitutes an easier classification task.
+Figure \ref{fig:deepCNN_regularized_results} shows the train/test losses and accuracies throughout the training. Due to the dropout in the training phase, the training loss (blue line) is now higher than the test loss (red line). After 9 epochs we reached a training accuracy of 100\% using a dropout probability of 95\%. This high dropout probability suggests that the first fully connected layer of our neural net is too big and might would work with less neurons as well. For comparison, we viewed the leaderboard of the similar digit classification task on the MNIST dataset. Our network achieves an error of 0\% on the sign language dataset, while the best reported result for the seemingly easier digit recognition task with fewer classes is an error rate of 0.21\%. This has two reasons. Firstly, the MNIST dataset contains digits, which are not clearly written and therefore cannot be identified uniquely even for humans, while the \textit{Sign Language MNIST} dataset only contains well-defined characters. Secondly, our dataset was created from 1794 original images from 7 different persons. This results in a great similarity between the training and test images and therefore constitutes an easier classification task.
 
 \section{Evaluation}
 \label{ch:evaluation}
